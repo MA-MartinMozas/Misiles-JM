@@ -31,6 +31,28 @@
     <![endif]-->
 
 </head>
+<script>
+    var frontSectionType = 0;
+    var canardType = 0;
+    var finType = 0;
+
+    function selectGeometry(geometry,Type){
+        if(geometry==1){
+            frontSectionType = Type;
+        }
+        if(geometry==2){
+            canardType = Type;
+        }
+        if(geometry==3){
+            finType = Type;
+        }
+
+        console.log("Front Type :" + frontSectionType);
+        console.log("Canard Type :" + canardType);
+        console.log("Fin Type :" + finType);
+    }
+
+</script>
 
 <body>
 
@@ -102,17 +124,17 @@
                         <label>Sección delantera</label>
                         <div class="checkbox">
                             <label>
-                                <input  name="grupo1" type="radio" value=""> Cónica
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,1)" > Cónica
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input  name="grupo1" type="radio" value=""> Ojival
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,2)"> Ojival
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input  name="grupo1" type="radio" value=""> Semiesfera
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,3)"> Semiesfera
                             </label>
                         </div>
                     </div>
@@ -122,12 +144,12 @@
                         <label>Canard</label>
                         <div class="checkbox">
                             <label>
-                                <input name="grupo2" type="radio" value=""> Sí
+                                <input name="grupo2" type="radio" onclick="selectGeometry(2,1)"> Sí
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input name="grupo2" type="radio" value=""> No
+                                <input name="grupo2" type="radio" onclick="selectGeometry(2,2)"> No
                             </label>
                         </div>
 
@@ -136,17 +158,17 @@
                         <label>Tipo aleta</label>
                         <div class="checkbox">
                             <label>
-                                <input name="grupo3" type="radio" value="">Delta
+                                <input name="grupo3" type="radio"onclick="selectGeometry(3,1)">Delta
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input name="grupo3" type="radio" value="">Flecha
+                                <input name="grupo3" type="radio"onclick="selectGeometry(3,2)">Flecha
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input name="grupo3" type="radio" value="">Rectangular
+                                <input name="grupo3" type="radio" onclick="selectGeometry(3,3)">Rectangular
                             </label>
                         </div>
                         <!-- /.container-fluid -->
