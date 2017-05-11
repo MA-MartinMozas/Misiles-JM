@@ -1,0 +1,27 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+<script>
+
+    function cosa() {
+        var cosa=document.getElementById("input").value;
+        if (cosa==1) { $("p").hide();
+
+        }
+
+        document.getElementById("pa").innerHTML = cosa;
+
+    }
+</script>
+<input id="input"> </input>
+
+
+<button id="hide" onclick="cosa()">hide</button>
+<p id="pa"></p>
+
+
+</body>
+</html>
