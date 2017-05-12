@@ -25,26 +25,15 @@
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <script src="selecgeo.js"></script>
+
 
 </head>
-<script >
 
-        if (frontSectionType==1) {
-            $("variable1").hide();
-
-        }
-        if (frontSectionType==2) {
-            $("variable1").hide();
-
-        }
-
-
-</script>
-<body>
+<body onload="customFormDatosGeo()">
 <div id="wrapper">
 
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -118,8 +107,44 @@
                             </li>
                         </ol>
                     </div>
-                    <input class="text"  id="variable1"> variable1</input>
-                    <input class="text"  id="variable2"> variable2</input>
+                    <p>A continuación introduce las variables requeridas</p>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="dp"> d = </p>
+                        <input class="text col-lg-2"  id="d"> </input>
+                        <p class="col-lg-2 text-center" id="lap"> la = </p>
+                        <input class="text col-lg-2"  id="la"> </input>
+                        <p class="col-lg-2 text-center" id="lcp"> lc = </p>
+                        <input class="text col-lg-2"  id="lc"> </input>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="lnp"> ln = </p>
+                        <input class="text col-lg-2"  id="ln"> </input>
+                        <p class="col-lg-2 text-center" id="mp"> m = </p>
+                        <input class="text col-lg-2"  id="m"> </input>
+                        <p class="col-lg-2 text-center" id="rhop"> rho = </p>
+                        <input class="text col-lg-2"  id="rho"> </input>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="ap"> a = </p>
+                        <input class="text col-lg-2"  id="a"> </input>
+                        <p class="col-lg-2 text-center" id="lxp"> lx = </p>
+                        <input class="text col-lg-2"  id="lx"> </input>
+                        <p class="col-lg-2 text-center" id="mup"> mu = </p>
+                        <input class="text col-lg-2"  id="mu"> </input>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="srp"> sr = </p>
+                        <input class="text col-lg-2"  id="sr"> </input>
+                        <p class="col-lg-2 text-center" id="b_ap"> b_a = </p>
+                        <input class="text col-lg-2"  id="b_a"> </input>
+                        <p class="col-lg-2 text-center" id="c_ap"> c_a = </p>
+                        <input class="text col-lg-2"  id="c_a"> </input>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="ltp"> lt = </p>
+                        <input class="text col-lg-2"  id="lt"> </input>
+                        <p class="col-lg-2 text-center" id="cnsatp"> CNsat = </p>
+                        <input class="text col-lg-2"  id="cnsat"> </input>
+                        <p class="col-lg-2 text-center" id="deltap"> delta = </p>
+                        <input class="text col-lg-2"  id="delta"> </input>
+
+
 
                 </div>
                 <!-- /.row -->

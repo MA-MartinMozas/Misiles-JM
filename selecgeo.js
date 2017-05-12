@@ -13,9 +13,11 @@ function selectGeometry(geometry,Type){
     }
     if(geometry==2){
         canardType = Type;
+        sessionStorage.setItem("canardType",Type);
     }
     if(geometry==3){
         finType = Type;
+        sessionStorage.setItem("finType",Type);
     }
 
     console.log("Front Type :" + frontSectionType);
@@ -28,13 +30,17 @@ function selectGeometry(geometry,Type){
 function customFormDatosGeo(){
     var frontSectionType = sessionStorage.getItem("frontSectionType");
     if (frontSectionType==1) {
-        $("#variable1").hide();
+
 
     }
     if (frontSectionType==2) {
-        $("#variable2").hide();
+        $("#lc").hide();$("#lcp").hide();
 
     }
+    var frontSectionType = sessionStorage.getItem("canardType");
+
+
+    var frontSectionType = sessionStorage.getItem("finType");
 }
 
 
