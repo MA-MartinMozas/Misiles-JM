@@ -6,34 +6,23 @@ from sklearn.ensemble._gradient_boosting import np_bool
 
 
 class Operacion(object):
-    def __init__(self, M, rho, a, mu):
+    def __init__(self, M, rho, a, mu,lx):
         self.M = M
         self.rho = rho
         self.a = a
         self.mu = mu
+        self.lx = lx
+        self.Rex = 0
+    # Definimos el Reynolds
+    @property
+    def Rex(self):
+        return (self.rho * self.M * self.a * self.lx) / self.mu
 
 
 class Cabeza(object):
 
     def __init__(self, d, la, ln, lx, Cnalphabeta, b, c, lt, Cnsat, delta, m, mi_op):
-        """
 
-        :param d:
-        :param la:
-        :param ln:
-        :param a:
-        :param lx:
-        :param mu:
-        :param Cnalphabeta:
-        :param b:
-        :param c:
-        :param lt:
-        :param Cnsat:
-        :param delta:
-        :param m:
-        :param mi_op:
-        :type mi_op: Operacion
-        """
         self.mi_op = mi_op
 
         self._supcil = 0
@@ -119,32 +108,11 @@ class conica(Cabeza):
     @property
     def DWcono(self):
         return 0.5*self.mi_op.rho * (self.mi_op.M * self.mi_op.a)**2 * self._supref * self._CDWC
-#
-#
-# class ojival(Cabeza):
-#     # Datos geometría
-#
-#     def __init__(self):
-#         self._anguojiva = 0
-#         self._CDWO = 0
-#         self._DWojiva = 0
-#
-#     @property
-#     def anguojiva(self):
-#         return 2*np.tan(self.d/(2*self.ln))
-#
-#     # Resistencia de onda ojiva
-#
-#     # Cálculo del coeficiente de resistencia de onda ojiva
-#     @property
-#     def CDWO(self):
-#         return ((0.083 + 0.096 / (self.M ** 2)) * (self._anguojiva / 10) ** 1.69)*(1-(392*(self.ln/2)**2-32)/(28*(self.M+18)*(self.ln/self.d)**2))
-#
-#     # Cálculo de la Resistencia de onda ojiva
-#     @property
-#     def DWojiva(self):
-#         return 0.5 * self.rho * (self.M * self.a) ** 2 * self._supref * self._CDWO
-#
+
+
+
+
+
 # # Definir clases para Canard
 #
 # class canard:
@@ -163,10 +131,7 @@ class conica(Cabeza):
 #
 # # Resistencia de Fricción
 #
-#     #Definimos el Reinolds
-#     @property
-#     def Rex(self):
-#         return (self.rho * self.M * self.a * self.lx) / self.mu
+#
 #
 #     #Cálculo de los coeficientes de fricción
 #     @property
