@@ -26,16 +26,6 @@ class geometry(object):
     @property
     def supref(self):
         return np.pi * self.d ** 2 / 4
-    # Definimos el centro de masas
-    @property
-    def Xcg(self):
-        return  # FALTA COMPLETAR!!
-
-# #Para calcular Xcg se divide el misil en cuatro partes: fuselaje, sección delantera, alas, canard
-#  1)El usuario mete como variable el peso de cada parte
-#  2)Se calcula el Xcg de cada parte con el peso y la longitud
-#  3)Se hace la media??
-#   TENGO QUE PREGUNTAR MAÑANA EN LA ESCUELAA!!
 
 # Definimos una clase para el tipo de cabeza que hereda de la clase para el misil entero
 class cabeza(object):
@@ -108,12 +98,18 @@ class ojival(cabeza):
         return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDWO
 
 
-# class aleta (objeto):
-# # aquí metemos las características para la aletas de cálculo de su Xcg
+# Definimos una clase para el tipo de aletas que hereda de la clase para el misil entero
+# class aleta (object):
+#     def__init__(self, xe, lmaxu, lflatu, d_inic):
+#         self.xe = xe
+#         self.lmaxu = lmaxu
+#         self.lflatu = lflatu
+#
+# Definimos clase delta que hereda de aleta
 # class delta(aleta):
-# #   subclase que hereda de aleta y donde metemos las características para que sea delta
+# Definimos clase rectangular que hereda de aleta
 # class rectangular(aleta):
-# #     aquí como la anterior pero dado que el canard solo lo vamos a hacer tipo rectangular usamos tambien esta clase para hacer sus cálculos
+# También vale para canard ya que es rectangular
 
 
 # Definimos una clase para Resistencia de fricción que hereda de objeto y es común a todos los tipos de cabeza
@@ -140,15 +136,31 @@ class r_friccion (object) :
         return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDflam
 
 # Definimos una clase para Margen de estabilidad estático que hereda de objeto y es común a todos los tipos de cabeza
-# Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO
+# Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO. LUEGO BORRAR ESTA NOTITA
 class m_estabilidad(object):
-    def __init__(self, d_inic, b, c, lt, ln, Cnalphabeta):
+    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, lflatu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta):
         self.d_inic= d_inic
         self.b= b
         self.c= c
         self.lt= lt
         self.ln = ln
         self.Cnalphabeta = Cnalphabeta
+        self.lc = lc
+        self.xe = xe
+        self.lmaxu = lmaxu
+        self.lflatu = lflatu
+        self.xcanard = xcanard
+        self.lrd = lrd
+        self.mfuselaje = mfuselaje
+        self.mcabeza = mcabeza
+        self.maletas = maletas
+        self.mcanard = mcanard
+        self._m= 0
+        self._Xcg = 0
+        self._Xcgfus = 0
+        self._Xcgcabeza = 0
+        self._Xcgaleta = 0
+        self._Xcgcanard = 0
         self._Cnalphawing = 0
         self._Xcpbeta = 0
         self._Xcpwing = 0
@@ -158,6 +170,41 @@ class m_estabilidad(object):
         self._Cmalpha = 0
         self._h = 0
 
+    # Primero se calcula el centro de gravedad.
+    # Para calcular Xcg se divide el misil en cuatro partes: fuselaje, sección delantera, aletas, canard.
+    # Posteriormente, se calcula el Xcg de cada parte, respecto a la proa, luego se calcula la masa del misil total y por último el Xcg del misil
+
+    # Definimos el centro de masas del fuselaje respecto a la proa
+    @property
+    def Xcgfus(self):
+        return self.d_inic.la / 2 + self.lc
+
+    # Definimos el centro de masas de la sección delantera respecto a la proa
+    @property
+    def Xcgcabeza(self):
+        return  self.lc * 2/3
+
+    # Definimos el centro de masas de las aletas respecto a la proa
+    @property
+    def Xcgaletas(self):
+        return  self.xe + (2*self.lmaxu+self.lflatu)/2
+
+    # Definimos el centro de masas del canard respecto a la proa
+    @property
+    def Xcgcanard(self):
+        return  self.xcanard + self.lrd/2
+
+    # Calculamos la masa del misil
+    @property
+    def m(self):
+        return self.mfuselaje+self.mcabeza+self.maletas+self.mcanard
+
+    # Definimos el centro de masas del misil completo respecto a la proa
+    @property
+    def Xcg(self):
+        return (self.mfuselaje*self.Xcgfus+self.mcabeza*self.Xcgcabeza+self.maletas*self.Xcgaletas+self.mcanard*self.Xcgcanard)/self.m
+
+    # Continuamos con el cálculo del margen de estabilidad estático
     @property
     def Cnalphawing(self):
         return (4/np.sqrt(self.d_inic.M**2-1))*(1-(1/(2*np.sqrt(self.d_inic.M**2-1)*(self.b/self.c))))
@@ -182,7 +229,6 @@ class m_estabilidad(object):
     def Cnalpha(self):
         return(self.Cnalphabeta + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref)
 
-    # !!!!!atención en esta se usa xcg que no está definido porque es el xcg de la aleta y no hemos hecho esa clasee corregir!!!!
     @property
     def Cmalpha(self):
         return(self.Cnalphabeta*((self.d_inic.Xcg-self.Xcpbeta)/self.d_inic.d) + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref*((self.d_inic.Xcg-self.Xcpwing)/self.d_inic.d))
@@ -198,7 +244,6 @@ class manio_cap(m_estabilidad):
 
     def __init__(self, d_inic, b, c, lt, m, Cnsat):
         super().__init__(d_inic, b, c, lt)
-        self.m = m
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
         self._maniobrabilidad = 0
@@ -218,7 +263,7 @@ class manio_cap(m_estabilidad):
     @property
     def Cndelta(self):
         return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref
-    # !!!!!atención en esta se usa xcg que no está definido porque es el xcg de la aleta y no hemos hecho esa clasee corregir!!!!
+
     @property
     def Cmdelta(self):
         return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref * ((self.d_inic.Xcg - self.Xcpwing) / self.d_inic.d)
