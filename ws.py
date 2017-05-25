@@ -3,7 +3,7 @@ import tornado.websocket
 import tornado.ioloop
 import tornado.web
 import json
-import prueba1
+import d_aerodinamico
 
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -14,12 +14,14 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class WSHandler(tornado.websocket.WebSocketHandler):
     connections = set()
-    lastMessage = ""
+    geo = dict()
+
 
     def open(self):
         self.connections.add(self)
         print('New connection was opened')
         self.write_message("Conn!")
+
 
     def on_message(self, message):
         # print(message)
@@ -30,22 +32,30 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(json_string)
         msg = json.loads(json_string)
         print(type(msg))
-        # obj = json.loads(json_string)
-        # print(type(obj))
-        message = msg['msg']
+        obj = json.loads(json_string)
+        print(type(obj))
+        message = msg
+
+        # if msg['tipo'] == 'geo':
+        geo = msg
+        result = d_aerodinamico.principal(geo)
+        print("reynoolds", result["Rex"])
+        #     self.write(result)
+
+
+
 
         print('received message: %s\n' %message)
         print(self.connections)
-        for elem in self.connections:
-            elem.write_message({"msg": message + ' a todos'}, binary=False)
+        # for elem in self.connections:
+        #     elem.write_message({"d": message["d"] + ' a todos'}, binary=False)
 
         # [con.write_message('Hi!') for con in self.connections]
-        # aqui tengo que meter cada uno de los apartados del diccionario
-        self.write_message({"msg": message ,'otrallave': 1})
-        self.lastMessage = message
-        print("Last Message = " + message)
-        pr = prueba1.prueba1()
-        pr.hazAlgo(str(message))
+        # aqui tengo que meter cada uno de los apartados del diccionario que le envio al javascript
+
+        self.write_message(result)
+        print(message["d"])
+        print(message["M"])
 
     def on_close(self):
         print('connection closed\n')
