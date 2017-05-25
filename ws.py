@@ -10,11 +10,12 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         #self.write("This is your response")
         #self.finish()
-        self.render("index.html")
+        self.render("SeleccionGeo.html")
 
 class WSHandler(tornado.websocket.WebSocketHandler):
     connections = set()
     geo = dict()
+    mis = dict()
 
 
     def open(self):
@@ -40,7 +41,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         geo = msg
         result = d_aerodinamico.principal(geo)
         print("reynoolds", result["Rex"])
-        #     self.write(result)
+
 
 
 
@@ -61,7 +62,9 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 
 
-application = tornado.web.Application([(r'/', IndexHandler),(r'/ws', WSHandler),])
+application = tornado.web.Application([(r'/', IndexHandler),
+                                       (r'/ws', WSHandler),
+                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\graficos\Desktop\25-5-2017jp\Misiles-JM-master\Misiles-JM-master'}),])
 
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)

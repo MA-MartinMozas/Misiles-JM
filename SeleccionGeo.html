@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MISILES MAJE</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="selecgeo.js"></script>
+
+
+</head>
+
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="SelecciónGeo.html">MISILES JM</a>
+            </div>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="SelecciónGeo.html"><i class="fa fa-fw fa-dot-circle-o"></i> Selección geometría</a>
+                    </li>
+                    <li>
+                        <a href="DatosGeo.html"><i class="fa fa-fw fa-bar-chart-o"></i> Datos Geometría</a>
+                    </li>
+                    <li>
+                        <a href="ResultadosGeo.html"><i class="fa fa-fw fa-table"></i> Resultados </a>
+                    </li>
+                    <li>
+                        <a href="Misión.html"><i class="fa fa-fw fa-edit"></i> Misión</a>
+                    </li>
+
+                    <li>
+                        <a href="DatosMIsion.html"><i class="fa fa-fw fa-wrench"></i> Datos Misión</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Misión <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                            <li>
+                                <a href="#">Dropdown Item</a>
+                            </li>
+                            <li>
+                                <a href="#">Dropdown Item</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <img class="container-fluid"/>
+
+            <div class="row">
+                <div class="col-6 col-md-6">
+                    <h1>SELECCIÓN DE GEOMETRÍA</h1>
+
+                    <div class="form-group ">
+
+
+                        <label>Sección delantera</label>
+                        <div class="checkbox">
+                            <label>
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,1)" > Cónica
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,2)"> Ojival
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input  name="grupo1" type="radio" onclick="selectGeometry(1,3)"> Semiesfera
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- /.row -->
+                    <div class="form-group">
+                        <label>Canard</label>
+                        <div class="checkbox">
+                            <label>
+                                <input name="grupo2" type="radio" onclick="selectGeometry(2,1)"> Sí
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="grupo2" type="radio" onclick="selectGeometry(2,2)"> No
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo aleta</label>
+                        <div class="checkbox">
+                            <label>
+                                <input name="grupo3" type="radio"onclick="selectGeometry(3,1)">Delta
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="grupo3" type="radio"onclick="selectGeometry(3,2)">Flecha
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input name="grupo3" type="radio" onclick="selectGeometry(3,3)">Rectangular
+                            </label>
+                        </div>
+                        <!-- /.container-fluid -->
+
+                    </div>
+                </div>
+                <div class="col-6 col-md-6">
+                    <div class=" text-center">
+                        <img src="http://vignette2.wikia.nocookie.net/es.starwars/images/1/19/Concussionmissile_NEGWT.jpg/revision/latest?cb=20090425013138" height="350" width="350"></img>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                ENLACES DE INTERÉS
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--row-->
+        </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+
+</body>
+
+</html>

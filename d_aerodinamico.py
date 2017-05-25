@@ -225,7 +225,7 @@ class m_estabilidad(object):
 
     @property
     def Kbw(self):
-        return (self.d_inic.d/(self.d_inic.d+self.b))(1 + self.d_inic.d/(self.b+self.d_inic.d))
+        return (self.d_inic.d/(self.d_inic.d+self.b))*(1 + self.d_inic.d/(self.b+self.d_inic.d))
 
     @property
     def Cnalpha(self):
@@ -233,7 +233,7 @@ class m_estabilidad(object):
 
     @property
     def Cmalpha(self):
-        return(self.Cnalphabeta*((self.d_inic.Xcg-self.Xcpbeta)/self.d_inic.d) + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref*((self.d_inic.Xcg-self.Xcpwing)/self.d_inic.d))
+        return(self.Cnalphabeta*((self.Xcg-self.Xcpbeta)/self.d_inic.d) + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref*((self.Xcg-self.Xcpwing)/self.d_inic.d))
 
     @property
     def h(self):
@@ -268,7 +268,7 @@ class manio_cap(m_estabilidad):
 
     @property
     def Cmdelta(self):
-        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref * ((self.d_inic.Xcg - self.Xcpwing) / self.d_inic.d)
+        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref * ((self.Xcg - self.Xcpwing) / self.d_inic.d)
 
     @property
     def maniobrabilidad(self):
@@ -309,25 +309,17 @@ def principal(geo):
 
 
     lc = geo["lc"]
-    ln = geo["lx"]
+    ln = geo["ln"]
     micabeza = cabeza(lc, ln, d_inic)
     miconica = conica(lc, ln, d_inic)
     c_fric= r_friccion(d_inic)
     miojiva = ojival(lc, ln, d_inic)
 
-    resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref, "supcono": micabeza.supcono, "angucono": miconica.angucono,"CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
-                  "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva, "CDfilam": c_fric.CDfilam, "CDfi":c_fric.CDfi, "CDflam": c_fric.CDflam, "Df": c_fric.Df,
-
-
-
-                  }
-    return resultados
+    b = geo['b']
     c = geo['c']
     lt = geo['lt']
-    ln = geo['ln']
-    lc = geo['lc']
     xe = geo['xe']
-    lmaxn = geo['lmaxn']
+    lmaxu = geo['lmaxu']
     lflatu = geo['lflatu']
     xcanard = geo['xcanard']
     lrd = geo['lrd']
@@ -336,10 +328,23 @@ def principal(geo):
     maletas = geo['maletas']
     mcanard = geo['mcanard']
     Cnalphabeta = geo['Cnalphabeta']
-    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxn,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
-    Cnsat = geo["Cnsat"]
-    m = geo["m"]
-    mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
+    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
+    resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
+                  "supcono": micabeza.supcono,
+                  "angucono": miconica.angucono, "CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
+                  "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva,
+                  "CDfilam": c_fric.CDfilam, "CDfi": c_fric.CDfi, "CDflam": c_fric.CDflam,
+                  "Xcgfus": mim_estabilidad.Xcgfus,"Xcgcabeza": mim_estabilidad.Xcgcabeza,"Xcgaletas": mim_estabilidad.Xcgaletas,
+                  "Xcgcanard": mim_estabilidad.Xcgcanard,"m": mim_estabilidad.m,
+                  "Xcg": mim_estabilidad.Xcg,"Cnalphawing": mim_estabilidad.Cnalphawing,"Xcpbeta": mim_estabilidad.Xcpbeta,
+                  "Xcpwing": mim_estabilidad.Xcpwing,"Kwb": mim_estabilidad.Kwb,
+                  "Kbw": mim_estabilidad.Kbw,"Cnalpha":mim_estabilidad.Cnalpha,"Cmalpha": mim_estabilidad.Cmalpha, "h": mim_estabilidad.h
+
+                  }
+    return resultados
+    # Cnsat = geo["Cnsat"]
+    # m = geo["m"]
+    # mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
 
 
 if __name__ == '__main__':

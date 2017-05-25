@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
-    <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+    <title>MISIÓN-JM</title>
+
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -25,7 +25,7 @@
 
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <script src="pasar.js"></script>
+        <script src="mision.js"></script>
 
 
 </head>
@@ -34,6 +34,8 @@
 
 <div id="wrapper">
 
+
+    <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -64,6 +66,7 @@
 
                 <li>
                     <a href="DatosMIsion.html"><i class="fa fa-fw fa-wrench"></i> Datos Misión</a>
+
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Misión <i class="fa fa-fw fa-caret-down"></i></a>
@@ -78,53 +81,63 @@
                 </li>
 
                 <li>
-                    <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
+                    <a href="ResultadosMision.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
                 </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
     </nav>
-
         <div id="page-wrapper">
 
             <div class="container-fluid">
-
-                <!-- Page Heading -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Resultados
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="SelecciónGeo.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-table"></i> Resultados
-                            </li>
-                        </ol>
+                    <div class="col-6 col-md-6">
+                        <h1>SELECCIÓN DE TIPO DE MISIÓN</h1>
+
+                        <div class="form-group  ">
+
+
+                            <label>Tipo de Misión</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input  name="grupo4" type="radio" onclick="selectMision(1,1)" > Persecución Pura
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input  name="grupo4" type="radio" onclick="selectMision(1,2)">Navegación Proporcional
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <!-- /.row -->
+                        <div class="form-group">
+                            <label>Selección Tipo de Objetivo</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="grupo5" type="radio" onclick="selectMision(2,1)"> Maniobrante
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="grupo5" type="radio" onclick="selectMision(2,2)"> No Maniobrante
+                                </label>
+                            </div>
+
+                        </div>
                     </div>
-                    <p class="col-lg-12"></p>
-                    <!--aquí metemos la variable para que la print la coge del javascript con la id que le metemos en el document.inner.html-->
-                        <p class="col-lg-2 text-center"  > Rex = </p>
-                        <p class="col-lg-2 text-center" id="Rex" >  </p>
-                        <p class="col-lg-2 text-center"  > Sup.cilindro = </p>
-                        <p class="col-lg-2 text-center" id="supcil">  </p>
-                        <p class="col-lg-2 text-center" > Sup.referencia = </p>
-                        <p class="col-lg-2 text-center" id="supref">  </p>
+                    <div class="col-6 col-md-6">
+                        <div class=" text-center">
+                            <img src="https://i.ytimg.com/vi/TJYuTfJ_QfY/maxresdefault.jpg" height="350" width="350"></img>
 
-
-
-
-
-
-
-
+                        </div>
+                    </div>
                 </div>
-                <!-- /.row -->
 
 
-                  -->
+
+
 
             </div>
             <!-- /.container-fluid -->
