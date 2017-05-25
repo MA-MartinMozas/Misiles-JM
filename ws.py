@@ -34,7 +34,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(type(msg))
         obj = json.loads(json_string)
         print(type(obj))
-        message = msg
+        # message = msg
 
         # if msg['tipo'] == 'geo':
         geo = msg
@@ -51,11 +51,10 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         #     elem.write_message({"d": message["d"] + ' a todos'}, binary=False)
 
         # [con.write_message('Hi!') for con in self.connections]
-        # aqui tengo que meter cada uno de los apartados del diccionario que le envio al javascript
 
+        # con este self.write envio lo de dentro al javascript de vuelta por tanto mandaremos un diccionario con los resultados obtenidos en el python
         self.write_message(result)
-        print(message["d"])
-        print(message["M"])
+
 
     def on_close(self):
         print('connection closed\n')

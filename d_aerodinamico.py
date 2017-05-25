@@ -306,32 +306,40 @@ def principal(geo):
     lx = geo['lx']
     rho = geo["rho"]
     d_inic = geometry( M,rho,a,mu,d,la,lx)
-    resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil , "supref": d_inic.supref }
-    return resultados
 
-    # lc = geo["lc"]
-    # ln = geo["lx"]
-    # miconica = conica(lc,ln,d_inic)
-    # c_fric= r_friccion(d_inic)
-    # miojival = ojival(lc,ln,d_inic)
-    # c = geo['c']
-    # lt = geo['lt']
-    # ln = geo['ln']
-    # lc = geo['lc']
-    # xe = geo['xe']
-    # lmaxn = geo['lmaxn']
-    # lflatu = geo['lflatu']
-    # xcanard = geo['xcanard']
-    # lrd = geo['lrd']
-    # mfuselaje = geo['mfuselaje']
-    # mcabeza = geo['mcabeza']
-    # maletas = geo['maletas']
-    # mcanard = geo['mcanard']
-    # Cnalphabeta = geo['Cnalphabeta']
-    # mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxn,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
-    # Cnsat = geo["Cnsat"]
-    # m = geo["m"]
-    # mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
+
+    lc = geo["lc"]
+    ln = geo["lx"]
+    micabeza = cabeza(lc, ln, d_inic)
+    miconica = conica(lc, ln, d_inic)
+    c_fric= r_friccion(d_inic)
+    miojiva = ojival(lc, ln, d_inic)
+
+    resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref, "supcono": micabeza.supcono, "angucono": miconica.angucono,"CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
+                  "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva, "CDfilam": c_fric.CDfilam, "CDfi":c_fric.CDfi, "CDflam": c_fric.CDflam, "Df": c_fric.Df,
+
+
+
+                  }
+    return resultados
+    c = geo['c']
+    lt = geo['lt']
+    ln = geo['ln']
+    lc = geo['lc']
+    xe = geo['xe']
+    lmaxn = geo['lmaxn']
+    lflatu = geo['lflatu']
+    xcanard = geo['xcanard']
+    lrd = geo['lrd']
+    mfuselaje = geo['mfuselaje']
+    mcabeza = geo['mcabeza']
+    maletas = geo['maletas']
+    mcanard = geo['mcanard']
+    Cnalphabeta = geo['Cnalphabeta']
+    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxn,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
+    Cnsat = geo["Cnsat"]
+    m = geo["m"]
+    mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
 
 
 if __name__ == '__main__':
