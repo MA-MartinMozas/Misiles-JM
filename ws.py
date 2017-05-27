@@ -4,6 +4,7 @@ import tornado.ioloop
 import tornado.web
 import json
 import d_aerodinamico
+import MisionMisil
 
 class IndexHandler(tornado.web.RequestHandler):
     @tornado.web.asynchronous
@@ -37,11 +38,13 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(type(obj))
         # message = msg
 
-        # if msg['tipo'] == 'geo':
-        geo = msg
-        result = d_aerodinamico.principal(geo)
-        print("reynoolds", result["Rex"])
-
+        if msg['tipo'] == 'geo':
+            geo = msg
+            result = d_aerodinamico.principal(geo)
+            print("reynoolds", result["Rex"])
+        else:
+            mis=msg
+            resut = MisionMisil.principal2(mis)
 
 
 

@@ -116,6 +116,28 @@ class naveproporc(mision):
             suceso = _etamnmcalculado
             return suceso
 
-d_inic= mision(1,1,0.75,1,1)
-algo= ppura(1,d_inic)
-print(algo.t)
+def principal2(mis):
+    """
+
+    :param mis:
+    :type mis: dict
+    :return:
+    """
+    # el código fallará si introducimos un string en vez de un  número por lo que podría ser algo a mejorar
+    for key, value in mis.items():
+        mis[key] = np.float64(value)
+    # aquí metemos cada variable que se tiene que introducir le asignamos su valor asignandole el marcador del diccionario mis
+    etamnmax = mis['etamnmax']
+
+    # aquí tenemos que introducir un marcador por cada resultado que queramos sacar y le asignamos el valor
+    resultados = {"Rex": d_inic.Rex,
+
+                  }
+    return resultados
+
+
+# esta parte sirve para que se ejecute en caso de no hacer import, es decir si solo corremos esta .py
+if __name__ == '__main__':
+    d_inic= mision(1,1,0.75,1,1)
+    algo= ppura(1,d_inic)
+    print(algo.t)
