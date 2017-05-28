@@ -244,8 +244,8 @@ class m_estabilidad(object):
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO
 class manio_cap(m_estabilidad):
 
-    def __init__(self, d_inic, b, c, lt, Cnsat):
-        super().__init__(d_inic, b, c, lt)
+    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, lflatu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, Cnsat):
+        super().__init__(d_inic, b, c, lt, ln, lc, xe, lmaxu, lflatu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta)
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
         self._Cndelta = 0
@@ -271,7 +271,7 @@ class manio_cap(m_estabilidad):
 
     @property
     def maniobrabilidad(self):
-        return ((0.5*self.d_inic.rho*(self.d_inic.a*self.d_inic.M)**2*self.d_inic.supref)/self.d_inic.m*9.81)*(self.Cndelta+self.Cmdelta/self.h)
+        return ((0.5*self.d_inic.rho*(self.d_inic.a*self.d_inic.M)**2*self.d_inic.supref)/self.m*9.81)*(self.Cndelta+self.Cmdelta/self.h)
 
     @property
     def alphasatur(self):
@@ -330,7 +330,7 @@ def principal(geo):
     mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
 
     Cnsat = geo['Cnsat']
-    mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
+    mimanio_cap = manio_cap(d_inic, b, c, lt, ln, lc, xe, lmaxu, lflatu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, Cnsat)
 
     resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
                   "supcono": micabeza.supcono,

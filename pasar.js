@@ -57,15 +57,16 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str1 = `{"tipo": "${geo}","d": "${d}", "M": "${M}", "rho": "${rho}", "a": "${a}", "mu": "${mu}", "la": "${la}","lx": "${lx}","lc": "${lc}","ln": "${ln}",
-      "b": "${b}","c": "${c}","lt": "${lt}","xe": "${xe}","lmaxu": "${lmaxu}","lflatu": "${lflatu}","xcanard": "${xcanard}","lrd": "${lrd}","mfuselaje": "${mfuselaje}","mcabeza": "${mcabeza}",
-      "maletas": "${maletas}","mcanard": "${mcanard}","Cnalphabeta": "${Cnalphabeta}","Cnsat": "${Cnsat}"}`;
+      var str1 = `{"d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
+      "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","lflatu": "${lflatu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
+      "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
       ws.send(str1);
 //      var newMessage = document.createElement('p');
 //      newMessage.textContent = "Client: " + message;
 //      document.getElementById('messages_txt').appendChild(newMessage);
 
     });
+});
 //    este boton será el que este en datos misión y al pulsarlo se mandarán estas variables
     $("#button2").click(function(evt) {
       evt.preventDefault();
@@ -87,12 +88,11 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "${mis}","etamnnmax": "${etamnnmax}", "vm": "${vm}", "vt": "${vt}", "deltato": "${deltato}", "ro": "${ro}",
-      "deltat": "${deltat}","deltamo": "${deltamo}","etatn": "${etatn}","am": "${am}","t": "${t}"}`;
+      var str2 = `{"etamnnmax": "${etamnnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
+      "deltat": "${deltat || "1"}","deltamo": "${deltamo || "1"}","etatn": "${etatn || "1"}","am": "${am || "1"}","t": "${t || "1"}"}`;
       ws.send(str2);
 //      var newMessage = document.createElement('p');
 //      newMessage.textContent = "Client: " + message;
 //      document.getElementById('messages_txt').appendChild(newMessage);
 
     });
-  });

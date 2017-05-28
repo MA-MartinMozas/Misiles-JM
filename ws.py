@@ -38,26 +38,28 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(type(obj))
         # message = msg
 
-        if msg['tipo'] == 'geo':
+        if msg['tipo'] == '1':
             geo = msg
             result = d_aerodinamico.principal(geo)
             print("reynoolds", result["Rex"])
+            self.write_message(result)
         else:
             mis=msg
-            resut = MisionMisil.principal2(mis)
+            result = MisionMisil.principal2(mis)
+            self.write_message(result)
 
 
 
 
-        print('received message: %s\n' %message)
-        print(self.connections)
+        # print('received message: %s\n' %message)
+        # print(self.connections)
         # for elem in self.connections:
         #     elem.write_message({"d": message["d"] + ' a todos'}, binary=False)
 
         # [con.write_message('Hi!') for con in self.connections]
 
         # con este self.write envio lo de dentro al javascript de vuelta por tanto mandaremos un diccionario con los resultados obtenidos en el python
-        self.write_message(result)
+
 
 
     def on_close(self):
@@ -67,8 +69,8 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 application = tornado.web.Application([(r'/', IndexHandler),
                                        (r'/ws', WSHandler),
-                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\graficos\Desktop\25-5-2017jp\Misiles-JM-master\Misiles-JM-master'}),])
-
+                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\manu3m94\Desktop\UNI\python java\Misiles-JM-master'}),])
+# en el enlace anterior tenemos que poner el lugar donde se encuentra el archivo si cambiamos de ordenador cambiará la posición
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8888)

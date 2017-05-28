@@ -11,7 +11,8 @@ class mision(object):
 
 # Definimos una clase para Persecución Pura que hereda de la clase misión
 class ppura(mision):
-    def __init__(self, deltat, d_inic):
+    def __init__(self, deltat, d_inic, etamnmax, vm, vt, deltato, ro):
+        super().__init__( etamnmax, vm, vt, deltato, ro)
         self.d_inic = d_inic
         self.deltat = deltat
         self._K = 0
