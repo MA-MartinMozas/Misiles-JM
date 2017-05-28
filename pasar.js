@@ -48,7 +48,7 @@
       var maletas = $("#maletas").val();
       var mcanard = $("#mcanard").val();
       var Cnalphabeta = $("#Cnalphabeta").val();
-
+      var Cnsat = $("#Cnsat").val();
 
 
 
@@ -59,7 +59,7 @@
 
       var str1 = `{"tipo": "${geo}","d": "${d}", "M": "${M}", "rho": "${rho}", "a": "${a}", "mu": "${mu}", "la": "${la}","lx": "${lx}","lc": "${lc}","ln": "${ln}",
       "b": "${b}","c": "${c}","lt": "${lt}","xe": "${xe}","lmaxu": "${lmaxu}","lflatu": "${lflatu}","xcanard": "${xcanard}","lrd": "${lrd}","mfuselaje": "${mfuselaje}","mcabeza": "${mcabeza}",
-      "maletas": "${maletas}","mcanard": "${mcanard}","Cnalphabeta": "${Cnalphabeta}"}`;
+      "maletas": "${maletas}","mcanard": "${mcanard}","Cnalphabeta": "${Cnalphabeta}","Cnsat": "${Cnsat}"}`;
       ws.send(str1);
 //      var newMessage = document.createElement('p');
 //      newMessage.textContent = "Client: " + message;
@@ -70,30 +70,16 @@
     $("#button2").click(function(evt) {
       evt.preventDefault();
 //        aqui tenemos que meter tantas variables como inputs tenemos que introducir en mision con el id del input donde lo introducimos
-      var d = $("#d").val();
-      var M = $("#M").val();
-      var rho = $("#rho").val();
-      var a = $("#a").val();
-      var mu= $("#mu").val();
-      var la = $("#la").val();
-      var lx = $("#lx").val();
-      var lc = $("#lc").val();
-      var ln = $("#ln").val();
-      var b = $("#b").val();
-      var c = $("#c").val();
-      var lt = $("#lt").val();
-      var xe = $("#xe").val();
-      var lmaxu = $("#lmaxu").val();
-      var lflatu = $("#lflatu").val();
-      var xcanard = $("#xcanard").val();
-      var lrd = $("#lrd").val();
-      var mfuselaje = $("#mfuselaje").val();
-      var mcabeza = $("#mcabeza").val();
-      var maletas = $("#maletas").val();
-      var mcanard = $("#mcanard").val();
-      var Cnalphabeta = $("#Cnalphabeta").val();
-
-
+      var etamnnmax = $("#etamnnmax").val();
+      var vm = $("#vm").val();
+      var vt = $("#vt").val();
+      var deltato = $("#deltato").val();
+      var ro= $("#ro").val();
+      var deltat = $("#deltat").val();
+      var deltamo = $("#deltamo").val();
+      var etatn = $("#etatn").val();
+      var am = $("#am").val();
+      var t = $("#t").val();
 
 
 
@@ -101,9 +87,8 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "${mis}","d": "${d}", "M": "${M}", "rho": "${rho}", "a": "${a}", "mu": "${mu}", "la": "${la}","lx": "${lx}","lc": "${lc}","ln": "${ln}",
-      "b": "${b}","c": "${c}","lt": "${lt}","xe": "${xe}","lmaxu": "${lmaxu}","lflatu": "${lflatu}","xcanard": "${xcanard}","lrd": "${lrd}","mfuselaje": "${mfuselaje}","mcabeza": "${mcabeza}",
-      "maletas": "${maletas}","mcanard": "${mcanard}","Cnalphabeta": "${Cnalphabeta}"}`;
+      var str2 = `{"tipo": "${mis}","etamnnmax": "${etamnnmax}", "vm": "${vm}", "vt": "${vt}", "deltato": "${deltato}", "ro": "${ro}",
+      "deltat": "${deltat}","deltamo": "${deltamo}","etatn": "${etatn}","am": "${am}","t": "${t}"}`;
       ws.send(str2);
 //      var newMessage = document.createElement('p');
 //      newMessage.textContent = "Client: " + message;
