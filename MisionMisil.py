@@ -16,7 +16,7 @@ class ppura(mision):
         self.deltat = deltat
         self._K = 0
         self._deltati = 0
-        self._etamnn = 0
+        self._etamnm = 0
         self._t = 0
         self._ri = 0
         self._xt = 0
@@ -70,11 +70,11 @@ class ppura(mision):
 
 # Definimos una clase para Navegación Proporcional que hereda de la clase misión
 class naveproporc(mision):
-    def __init__(self, deltamo, etatn, a, t, d_inic):
+    def __init__(self, deltamo, etatn, am, t, d_inic):
         self.d_inic = d_inic
         self.deltamo = deltamo
         self.etatn = etatn
-        self.a = a
+        self.am = am
         self.t = t
         self._deltamc = 0
         self._incrementodeltam = 0
@@ -86,7 +86,7 @@ class naveproporc(mision):
     #ATENCIÓN a!=2 si se puede emplear la fórmula poner en INPUT
     @property
     def etmncalculado(self):
-        _etamnmcalculado = self.etatn*self.a/(self.a-2)*(1-(1-self.t/self.ti)**(self.a-2))
+        _etamnmcalculado = self.etatn*self.am/(self.am-2)*(1-(1-self.t/self.ti)**(self.am-2))
         suceso = "NO HAY IMPACTO"
         # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
         if d_inic.etamnmax > _etamnmcalculado:
@@ -109,7 +109,7 @@ class naveproporc(mision):
 
     @property
     def etamncalculado(self):
-        _etamnmcalculado = (self.a*self.d_inic.vm/self.ti)*(self.incrementodeltam*np.pi/180)
+        _etamnmcalculado = (self.am*self.d_inic.vm/self.ti)*(self.incrementodeltam*np.pi/180)
         suceso = "NO HAY IMPACTO"
         # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos
         if d_inic.etamnmax > _etamnmcalculado:
@@ -128,9 +128,25 @@ def principal2(mis):
         mis[key] = np.float64(value)
     # aquí metemos cada variable que se tiene que introducir le asignamos su valor asignandole el marcador del diccionario mis
     etamnmax = mis['etamnmax']
+    vm = mis['vm']
+    vt = mis['vt']
+    deltato = mis['deltato']
+    ro = mis['ro']
+    d_inic = mision(etamnmax, vm, vt, deltato, ro)
+
+    deltat = mis['deltat']
+    mippura = ppura(deltat, d_inic)
+
+    deltamo = mis['deltamo']
+    etatn = mis['etatn']
+    am = mis['am']
+    t = mis['t']
+    minaveproporc = naveproporc(deltamo, etatn, am, t, d_inic)
 
     # aquí tenemos que introducir un marcador por cada resultado que queramos sacar y le asignamos el valor
-    resultados = {"Rex": d_inic.Rex,
+    resultados = {"K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,
+                  "deltamc": minaveproporc.deltamc,"incrementodeltam": minaveproporc.incrementodeltam,
+                  "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etamncalculado
 
                   }
     return resultados
