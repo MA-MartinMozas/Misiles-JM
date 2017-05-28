@@ -248,7 +248,6 @@ class manio_cap(m_estabilidad):
         super().__init__(d_inic, b, c, lt)
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
-        self._maniobrabilidad = 0
         self._Cndelta = 0
         self._Cmdelta = 0
         self._Kbm = 0
@@ -329,6 +328,10 @@ def principal(geo):
     mcanard = geo['mcanard']
     Cnalphabeta = geo['Cnalphabeta']
     mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,lflatu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
+
+    Cnsat = geo['Cnsat']
+    mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
+
     resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
                   "supcono": micabeza.supcono,
                   "angucono": miconica.angucono, "CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
@@ -338,14 +341,12 @@ def principal(geo):
                   "Xcgcanard": mim_estabilidad.Xcgcanard,"m": mim_estabilidad.m,
                   "Xcg": mim_estabilidad.Xcg,"Cnalphawing": mim_estabilidad.Cnalphawing,"Xcpbeta": mim_estabilidad.Xcpbeta,
                   "Xcpwing": mim_estabilidad.Xcpwing,"Kwb": mim_estabilidad.Kwb,
-                  "Kbw": mim_estabilidad.Kbw,"Cnalpha":mim_estabilidad.Cnalpha,"Cmalpha": mim_estabilidad.Cmalpha, "h": mim_estabilidad.h
+                  "Kbw": mim_estabilidad.Kbw,"Cnalpha":mim_estabilidad.Cnalpha,"Cmalpha": mim_estabilidad.Cmalpha, "h": mim_estabilidad.h,
+                  "Cndelta": mimanio_cap.Cndelta,"Cmdelta": mimanio_cap.Cmdelta,"Kbm": mimanio_cap.Kbm,"maniobrabilidad": mimanio_cap.maniobrabilidad,
+                  "alphasatur": mimanio_cap.alphasatur,"nmaximo": mimanio_cap.nmaximo,"deltamani": mimanio_cap.deltamani
 
                   }
     return resultados
-    # Cnsat = geo["Cnsat"]
-    # m = geo["m"]
-    # mimanio_cap = manio_cap(d_inic,b,c,lt,m,Cnsat)
-
 
 if __name__ == '__main__':
     #importante no cambiar nombre de d_inic
