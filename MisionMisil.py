@@ -70,7 +70,7 @@ class ppura(mision):
         return self.d_inic.vt/self.t
 
 # Definimos una clase para Navegación Proporcional que hereda de la clase misión
-class naveproporc(mision):
+class naveproporc( ):
     def __init__(self, deltamo, etatn, am, t, d_inic):
         self.d_inic = d_inic
         self.deltamo = deltamo
@@ -126,7 +126,11 @@ def principal2(mis):
     """
     # el código fallará si introducimos un string en vez de un  número por lo que podría ser algo a mejorar
     for key, value in mis.items():
-        mis[key] = np.float64(value)
+        if mis[key]== mis["tipo"]:
+            mis[key] = value
+        else:
+            mis[key] = np.float64(value)
+
     # aquí metemos cada variable que se tiene que introducir le asignamos su valor asignandole el marcador del diccionario mis
     etamnmax = mis['etamnmax']
     vm = mis['vm']

@@ -100,18 +100,6 @@ class ojival(cabeza):
         return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDWO
 
 
-# Definimos una clase para el tipo de aletas que hereda de la clase para el misil entero
-# class aleta (object):
-#     def__init__(self, xe, lmaxu, lflatu, d_inic):
-#         self.xe = xe
-#         self.lmaxu = lmaxu
-#         self.lflatu = lflatu
-#
-# Definimos clase delta que hereda de aleta
-# class delta(aleta):
-# Definimos clase rectangular que hereda de aleta
-# class rectangular(aleta):
-# También vale para canard ya que es rectangular
 
 
 # Definimos una clase para Resistencia de fricción que hereda de objeto y es común a todos los tipos de cabeza
@@ -157,7 +145,7 @@ class m_estabilidad(object):
         self.mcabeza = mcabeza
         self.maletas = maletas
         self.mcanard = mcanard
-        self._m= 0
+        self._m = 0
         self._Xcg = 0
         self._Xcgfus = 0
         self._Xcgcabeza = 0
@@ -295,7 +283,10 @@ def principal(geo):
     """
     # el código fallará si introducimos un string en vez de un  número por lo que podría ser algo a mejorar
     for key, value in geo.items():
-        geo[key] = np.float64(value)
+        if key == "tipo":
+            pass
+        else:
+            geo[key] = np.float64(value)
 
     d = geo['d']
     M = geo['M']
@@ -343,9 +334,13 @@ def principal(geo):
                   "Xcpwing": mim_estabilidad.Xcpwing,"Kwb": mim_estabilidad.Kwb,
                   "Kbw": mim_estabilidad.Kbw,"Cnalpha":mim_estabilidad.Cnalpha,"Cmalpha": mim_estabilidad.Cmalpha, "h": mim_estabilidad.h,
                   "Cndelta": mimanio_cap.Cndelta,"Cmdelta": mimanio_cap.Cmdelta,"Kbm": mimanio_cap.Kbm,"maniobrabilidad": mimanio_cap.maniobrabilidad,
-                  "alphasatur": mimanio_cap.alphasatur,"nmaximo": mimanio_cap.nmaximo,"deltamani": mimanio_cap.deltamani
+                  "alphasatur": mimanio_cap.alphasatur,"nmaximo": mimanio_cap.nmaximo,"deltamani": mimanio_cap.deltamani}
 
-                  }
+
+    for key, value in resultados.items():
+        # "%.3f" %value,
+        resultados[key] = "%.3f" % value,
+
     return resultados
 
 if __name__ == '__main__':

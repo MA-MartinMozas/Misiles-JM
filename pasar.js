@@ -4,18 +4,54 @@
     var ws = new WebSocket("ws://localhost:8888/ws");
     ws.onopen = function(evt) {
       var conn_status = document.getElementById('conn_text');
-      conn_status.innerHTML = "Connection status: Connected!"
+//      conn_status.innerHTML = "Connection status: Connected!"
     };
     ws.onmessage = function(evt) {
       var newMessage = document.createElement('p');
       var obj = JSON.parse(evt.data);
+
 //      creamos una variable llamando al marcador del diccionario por lo que unimos el valor a esa variable
-      var Rex = obj.Rex
-      document.getElementById("Rex").innerHTML = Rex;
-      var supcil = obj.supcil
-      document.getElementById("supcil").innerHTML = supcil;
-      var supcil = obj.supref
-      document.getElementById("supref").innerHTML = supref;
+
+      document.getElementById("Rex").innerHTML = obj.Rex;
+      document.getElementById("supcil").innerHTML = obj.supcil;
+      document.getElementById("supref").innerHTML = obj.supref;
+      document.getElementById("supcono").innerHTML = obj.supcono;
+      document.getElementById("angucono").innerHTML = obj.angucono;
+      document.getElementById("CDWC").innerHTML = obj.CDWC;
+      document.getElementById("DWcono").innerHTML = obj.DWcono;
+      document.getElementById("anguojiva").innerHTML = obj.anguojiva;
+      document.getElementById("CDWO").innerHTML = obj.CDWO;
+      document.getElementById("DWojiva").innerHTML = obj.DWojiva;
+      document.getElementById("CDfilam").innerHTML = obj.CDfilam;
+      document.getElementById("CDfi").innerHTML = obj.CDfi;
+      document.getElementById("CDflam").innerHTML = obj.CDflam;
+      document.getElementById("Xcgfus").innerHTML = obj.Xcgfus;
+      document.getElementById("Xcgcabeza").innerHTML = obj.Xcgcabeza;
+      document.getElementById("Xcgaletas").innerHTML = obj.Xcgaletas;
+      document.getElementById("Xcgcanard").innerHTML = obj.Xcgcanard;
+      document.getElementById("m").innerHTML = obj.m;
+      document.getElementById("Xcg").innerHTML = obj.Xcg;
+      document.getElementById("Cnalphawing").innerHTML = obj.Cnalphawing;
+      document.getElementById("Xcpwing").innerHTML = obj.Xcpwing;
+      document.getElementById("Kwb").innerHTML = obj.Kwb;
+      document.getElementById("Kbw").innerHTML = obj.Kbw;
+      document.getElementById("Cnalpha").innerHTML = obj.Cnalpha;
+      document.getElementById("Cmalpha").innerHTML = obj.Cmalpha;
+      document.getElementById("h").innerHTML = obj.h;
+      document.getElementById("Cndelta").innerHTML = obj.Cndelta;
+      document.getElementById("Cmdelta").innerHTML = obj.Cmdelta;
+      document.getElementById("Kbm").innerHTML = obj.Kbm;
+      document.getElementById("maniobrabilidad").innerHTML = obj.maniobrabilidad;
+      document.getElementById("alphasatur").innerHTML = obj.alphasatur;
+      document.getElementById("nmaximo").innerHTML = obj.nmaximo;
+      document.getElementById("deltamani").innerHTML = obj.deltamani;
+
+
+
+
+
+
+
 
 
     };
@@ -57,7 +93,7 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str1 = `{"d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
+      var str1 = `{"tipo": "geo","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
       "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","lflatu": "${lflatu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
       "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
       ws.send(str1);
@@ -66,7 +102,7 @@
 //      document.getElementById('messages_txt').appendChild(newMessage);
 
     });
-});
+
 //    este boton será el que este en datos misión y al pulsarlo se mandarán estas variables
     $("#button2").click(function(evt) {
       evt.preventDefault();
@@ -88,11 +124,18 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"etamnnmax": "${etamnnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
+      var str2 = `{"tipo": "mis","etamnnmax": "${etamnnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
       "deltat": "${deltat || "1"}","deltamo": "${deltamo || "1"}","etatn": "${etatn || "1"}","am": "${am || "1"}","t": "${t || "1"}"}`;
       ws.send(str2);
+
 //      var newMessage = document.createElement('p');
 //      newMessage.textContent = "Client: " + message;
 //      document.getElementById('messages_txt').appendChild(newMessage);
 
     });
+    $("#button3").click(function(evt) {
+      var str1 = `{"tipo": "actualiza"}`;
+      ws.send(str1);
+    });
+
+});

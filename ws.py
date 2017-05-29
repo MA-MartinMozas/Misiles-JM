@@ -13,16 +13,17 @@ class IndexHandler(tornado.web.RequestHandler):
         #self.finish()
         self.render("SeleccionGeo.html")
 
+geo = dict()
+
 class WSHandler(tornado.websocket.WebSocketHandler):
     connections = set()
-    geo = dict()
     mis = dict()
 
 
     def open(self):
         self.connections.add(self)
         print('New connection was opened')
-        self.write_message("Conn!")
+        # self.write_message("Conn!")
 
 
     def on_message(self, message):
@@ -36,17 +37,28 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(type(msg))
         obj = json.loads(json_string)
         print(type(obj))
-        # message = msg
 
-        if msg['tipo'] == '1':
+        if msg['tipo'] == 'geo':
+            global geo
             geo = msg
             result = d_aerodinamico.principal(geo)
             print("reynoolds", result["Rex"])
+            self.write_message(result)
+            print("* " * 10)
+            print("geo:", geo)
+        elif msg['tipo'] == 'actualiza':
+            global geo
+            print("* "*10)
+            print("geo:", geo)
+            result = d_aerodinamico.principal(geo)
             self.write_message(result)
         else:
             mis=msg
             result = MisionMisil.principal2(mis)
             self.write_message(result)
+        # message = msg
+
+        print(result)
 
 
 
@@ -69,7 +81,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 application = tornado.web.Application([(r'/', IndexHandler),
                                        (r'/ws', WSHandler),
-                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\manu3m94\Desktop\UNI\python java\Misiles-JM-master'}),])
+                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\graficos\Desktop\25-5-2017jp\Misiles-JM-master'}),])
 # en el enlace anterior tenemos que poner el lugar donde se encuentra el archivo si cambiamos de ordenador cambiará la posición
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
