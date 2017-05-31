@@ -128,7 +128,7 @@ class r_friccion (object) :
 # Definimos una clase para Margen de estabilidad estático que hereda de objeto y es común a todos los tipos de cabeza
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO. LUEGO BORRAR ESTA NOTITA
 class m_estabilidad(object):
-    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta):
+    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin):
         self.d_inic= d_inic
         self.b= b
         self.c= c
@@ -144,6 +144,7 @@ class m_estabilidad(object):
         self.mcabeza = mcabeza
         self.maletas = maletas
         self.mcanard = mcanard
+        self.fin = fin
         self._m = 0
         self._Xcg = 0
         self._Xcgfus = 0
@@ -171,16 +172,16 @@ class m_estabilidad(object):
     # Definimos el centro de masas de la sección delantera respecto a la proa
     @property
     def Xcgcabeza(self):
-        return  self.lc * 2/3
+        return self.lc * 2/3
 
     # Definimos el centro de masas de las aletas respecto a la proa
-    #@property
-    #def Xcgaletas(self):
-        #Aquí hay que meter CONDICIONAAAL!
-        #Si es Delta es:
-        #return  self.xe + 2*self.lmaxu/3
-        #Si es Rectangular es:
-        #return self.xe + self.lmaxu/2
+    @property
+    def Xcgaletas(self):
+        # Aquí hay que meter CONDICIONAAAL!
+        if self.fin == "Delta":
+            return self.xe + 2*self.lmaxu/3
+        else:
+            return self.xe + self.lmaxu/2
 
     # Definimos el centro de masas del canard respecto a la proa
     @property
@@ -235,8 +236,8 @@ class m_estabilidad(object):
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO
 class manio_cap(m_estabilidad):
 
-    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, Cnsat):
-        super().__init__(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta)
+    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin, Cnsat):
+        super().__init__(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin)
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
         self._Cndelta = 0
@@ -288,9 +289,11 @@ def principal(geo):
     for key, value in geo.items():
         if key == "tipo":
             pass
+        elif key == "finType":
+            pass
         else:
             geo[key] = np.float64(value)
-
+    fin = geo["finType"]
     d = geo['d']
     M = geo['M']
     a = geo['a']
@@ -320,10 +323,10 @@ def principal(geo):
     maletas = geo['maletas']
     mcanard = geo['mcanard']
     Cnalphabeta = geo['Cnalphabeta']
-    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta)
+    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta,fin)
 
     Cnsat = geo['Cnsat']
-    mimanio_cap = manio_cap(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, Cnsat)
+    mimanio_cap = manio_cap(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, fin , Cnsat)
 
     resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
                   "supcono": micabeza.supcono,

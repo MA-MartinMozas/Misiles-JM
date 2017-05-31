@@ -36,56 +36,48 @@
 <body onload="customFormDatosGeo()">
 <div id="wrapper">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="SelecciónGeo.html">MISILES JM</a>
-        </div>
 
-        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <li class="active">
-                    <a href="SelecciónGeo.html"><i class="fa fa-fw fa-dot-circle-o"></i> Selección geometría</a>
-                </li>
-                <li>
-                    <a href="DatosGeo.html"><i class="fa fa-fw fa-bar-chart-o"></i> Datos Geometría</a>
-                </li>
-                <li>
-                    <a href="ResultadosGeo.html"><i class="fa fa-fw fa-table"></i> Resultados </a>
-                </li>
-                <li>
-                    <a href="Misión.html"><i class="fa fa-fw fa-edit"></i> Misión</a>
-                </li>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="SelecciónGeo.html">MISILES JM</a>
+            </div>
 
-                <li>
-                    <a href="DatosMIsion.html"><i class="fa fa-fw fa-wrench"></i> Datos Misión</a>
-                </li>
-                <li>
-                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Misión <i class="fa fa-fw fa-caret-down"></i></a>
-                    <ul id="demo" class="collapse">
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                        <li>
-                            <a href="#">Dropdown Item</a>
-                        </li>
-                    </ul>
-                </li>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="SeleccionGeo.html"><i class="fa fa-fw fa-dot-circle-o"></i> Selección geometría</a>
+                    </li>
+                    <li>
+                        <a href="DatosGeo.html"><i class="fa fa-fw fa-bar-chart-o"></i> Datos Geometría</a>
+                    </li>
+                    <li>
+                        <a href="ResultadosGeo.html"><i class="fa fa-fw fa-table"></i> Resultados </a>
+                    </li>
+                    <li>
+                        <a href="Mision.html"><i class="fa fa-fw fa-edit"></i> Misión</a>
+                    </li>
 
-                <li>
-                    <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </nav>
+                    <li>
+                        <a href="DatosMision.html"><i class="fa fa-fw fa-wrench"></i> Datos Misión</a>
+                    </li>
+
+
+                    <li>
+                        <a href="ResultadosMis.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
 
 
 <div id="page-wrapper">
@@ -109,9 +101,12 @@
                     </div>
                     <p>A continuación introduce las variables requeridas</p>
                     <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center"  > Tipo de aleta = </p>
+                        <p class="col-lg-2 text-center" id="finType"  val="finType"></p>
+                    <p class="col-lg-12"></p>
                         <p class="col-lg-2 text-center" id="dp" > d = </p>
                         <input class="text col-lg-2" type="text"  id="d"> </input>
-                        <p class="col-lg-2 text-center" type="text" id="lap"> la = </p>
+                        <p class="col-lg-2 text-center"  id="lap"> la = </p>
                         <input class="text col-lg-2" type="text"  id="la"> </input>
 
                     <p class="col-lg-12"></p>

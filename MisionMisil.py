@@ -154,6 +154,9 @@ def principal2(mis):
                   "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etamncalculado
 
                   }
+    for key, value in resultados.items():
+        # "%.3f" %value,
+        resultados[key] = "%.3f" % value,
     return resultados
 
 

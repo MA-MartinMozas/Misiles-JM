@@ -29,6 +29,9 @@ function selectGeometry(geometry,Type){
 
 function customFormDatosGeo(){
     var frontSectionType = sessionStorage.getItem("frontSectionType");
+    var canardType = sessionStorage.getItem("canardType");
+    var finType = sessionStorage.getItem("finType");
+
     if (frontSectionType==1) {
 
 
@@ -37,12 +40,22 @@ function customFormDatosGeo(){
         $("#lc").hide();$("#lcp").hide();
 
     }
-    var frontSectionType = sessionStorage.getItem("canardType");
+//    escondemos input de masa de canard si no hay canard
+    if (canardType==2) {
+        $("#xcanard").hide();$("#xcanardp").hide();
+        $("#mcanard").hide();$("#mcanardp").hide();
 
 
-    var frontSectionType = sessionStorage.getItem("finType");
+        }
+    if (finType==1) {
+        finType= "Delta"
+    }
+    else {
+        finType = "Rectangular"
+    }
+    document.getElementById("finType").innerHTML = finType;
+
 }
-
 
 
 

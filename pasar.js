@@ -97,6 +97,8 @@
       var mcanard = $("#mcanard").val();
       var Cnalphabeta = $("#Cnalphabeta").val();
       var Cnsat = $("#Cnsat").val();
+      var finType = finType;
+//no entiendo porque no reconoce el fintype si la variable esta definida como local en el selecgeo y estan ambos llamados en datosgeo!!!!!
 
 
 
@@ -105,7 +107,7 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str1 = `{"tipo": "geo","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
+      var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
       "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
       "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
       ws.send(str1);
@@ -149,5 +151,8 @@
       var str1 = `{"tipo": "actualiza"}`;
       ws.send(str1);
     });
-
+    $("#button4").click(function(evt) {
+      var str2 = `{"tipo": "actualiza2"}`;
+      ws.send(str2);
+    });
 });

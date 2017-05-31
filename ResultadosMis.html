@@ -9,8 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-   <title>MISILES JM</title>
-
+    <title>MISILES JM</title>
+    <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -25,14 +25,14 @@
         <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <script src="mision.js"></script>
+        <script src="pasar.js"></script>
 
 
 </head>
 
-<body onload="customMisionDatos()">
+<body >
 
-   <div id="wrapper">
+<div id="wrapper">
 
 
         <!-- Navigation -->
@@ -76,63 +76,70 @@
             </div>
             <!-- /.navbar-collapse -->
         </nav>
-
         <div id="page-wrapper">
 
             <div class="container-fluid">
+
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Datos misión
+                            Resultados
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="SelecciónGeo.html">Selección misión</a>
+                                <i class="fa fa-dashboard"></i>  <a href="SelecciónGeo.html">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Datos misión
+                                <i class="fa fa-table"></i> Resultados
                             </li>
                         </ol>
+                    <input type="submit" id="button4" value="Calcular"  /><br />
                     </div>
-                    <p>A continuación introduce las variables requeridas</p>
                     <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" id="etamnmaxp"> etamnmax = </p>
-                        <input class="text col-lg-2"  id="etamnnmax"> </input>
-                        <p class="col-lg-2 text-center" id="vmp"> vm = </p>
-                        <input class="text col-lg-2"  id="vm"> </input>
-                        <p class="col-lg-2 text-center" id="vtp"> vt = </p>
-                        <input class="text col-lg-2"  id="vt"> </input>
+                    <!--aquí metemos la variable para que la print la coge del javascript con la id que le metemos en el document.inner.html-->
+                        <p class="col-lg-2 text-center"  > K = </p>
+                        <p class="col-lg-2 text-center" id="k" >  </p>
+                        <p class="col-lg-2 text-center"  > deltati = </p>
+                        <p class="col-lg-2 text-center" id="deltati">  </p>
+                        <p class="col-lg-2 text-center" > etamnm = </p>
+                        <p class="col-lg-2 text-center" id="etamnm">  </p>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center"  > t = </p>
+                        <p class="col-lg-2 text-center" id="t" >  </p>
+                        <p class="col-lg-2 text-center" > ri = </p>
+                        <p class="col-lg-2 text-center" id="ri">  </p>
+                        <p class="col-lg-2 text-center"  > xt = </p>
+                        <p class="col-lg-2 text-center" id="xt">  </p>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center"  > deltamc = </p>
+                        <p class="col-lg-2 text-center" id="deltamc" >  </p>
+                        <p class="col-lg-2 text-center" > incrementodeltam = </p>
+                        <p class="col-lg-2 text-center" id="incrementodeltam">  </p>
+                        <p class="col-lg-2 text-center"  > ti = </p>
+                        <p class="col-lg-2 text-center" id="ti">  </p>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center"  > etamncalculado = </p>
+                        <p class="col-lg-2 text-center" id="etamncalculado" >  </p>
 
 
-                    <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" id="deltatop"> deltato = </p>
-                        <input class="text col-lg-2"  id="deltato"> </input>
-                        <p class="col-lg-2 text-center" id="rop"> ro = </p>
-                        <input class="text col-lg-2"  id="ro"> </input>
-                        <p class="col-lg-2 text-center" id="deltatp"> deltat = </p>
-                        <input class="text col-lg-2"  id="deltat"> </input>
 
-                    <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" id="deltamop"> deltamo = </p>
-                        <input class="text col-lg-2"  id="deltamo"> </input>
-                        <p class="col-lg-2 text-center" id="etatnp"> etatn = </p>
-                        <input class="text col-lg-2"  id="etatn"> </input>
-                        <p class="col-lg-2 text-center" id="amp"> am = </p>
-                        <input class="text col-lg-2"  id="am"> </input>
 
-                    <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" id="tp"> t = </p>
-                        <input class="text col-lg-2"  id="t"> </input>
+
+
+
+
+
+
 
 
 
 
                 </div>
                 <!-- /.row -->
-                <input type="submit" id="button2" value="Calcular"  /><br />
 
 
+                  -->
 
             </div>
             <!-- /.container-fluid -->

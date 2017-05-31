@@ -14,10 +14,11 @@ class IndexHandler(tornado.web.RequestHandler):
         self.render("SeleccionGeo.html")
 
 geo = dict()
+mis = dict()
 
 class WSHandler(tornado.websocket.WebSocketHandler):
     connections = set()
-    mis = dict()
+
 
 
     def open(self):
@@ -47,15 +48,25 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             print("* " * 10)
             print("geo:", geo)
         elif msg['tipo'] == 'actualiza':
-            global geo
+            # global geo
             print("* "*10)
             print("geo:", geo)
             result = d_aerodinamico.principal(geo)
             self.write_message(result)
-        else:
-            mis=msg
+        elif msg['tipo'] == 'mis':
+            global mis
+            mis = msg
             result = MisionMisil.principal2(mis)
             self.write_message(result)
+            print("* " * 10)
+            print("geo:", mis)
+        else:
+            # global mis
+            print("* " * 10)
+            print("geo:", mis)
+            result = MisionMisil.principal2(mis)
+            self.write_message(result)
+
         # message = msg
 
         print(result)
@@ -81,7 +92,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 application = tornado.web.Application([(r'/', IndexHandler),
                                        (r'/ws', WSHandler),
-                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\graficos\Desktop\25-5-2017jp\Misiles-JM-master'}),])
+                                       (r'/(.*)', tornado.web.StaticFileHandler,  {'path': r'C:\Users\manu3m94\Desktop\UNI\python java\Misiles-JM-master'}),])
 # en el enlace anterior tenemos que poner el lugar donde se encuentra el archivo si cambiamos de ordenador cambiará la posición
 if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
