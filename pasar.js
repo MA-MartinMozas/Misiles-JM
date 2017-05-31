@@ -11,6 +11,7 @@
       var obj = JSON.parse(evt.data);
 
 //      creamos una variable llamando al marcador del diccionario por lo que unimos el valor a esa variable
+// #Primero, lo realizamos para diseño aerodinámico del misil
 
       document.getElementById("Rex").innerHTML = obj.Rex;
       document.getElementById("supcil").innerHTML = obj.supcil;
@@ -46,6 +47,18 @@
       document.getElementById("nmaximo").innerHTML = obj.nmaximo;
       document.getElementById("deltamani").innerHTML = obj.deltamani;
 
+// #Segundo, lo realizamos para definir la misión
+      document.getElementById("K").innerHTML = obj.K;
+      // POR QUÉ ME SALE LA K MORADAAAAAAAAAAAAAAAAAAAAAAAAA?????????????
+      document.getElementById("deltati").innerHTML = obj.deltati;
+      document.getElementById("etamnm").innerHTML = obj.etamnm;
+      document.getElementById("t").innerHTML = obj.t;
+      document.getElementById("ri").innerHTML = obj.ri;
+      document.getElementById("xt").innerHTML = obj.xt;
+      document.getElementById("deltamc").innerHTML = obj.deltamc;
+      document.getElementById("incrementdeltam").innerHTML = obj.incrementdeltam;
+      document.getElementById("ti").innerHTML = obj.ti;
+      document.getElementById("etamncalculado").innerHTML = obj.etamncalculado;
 
 
 
@@ -76,7 +89,6 @@
       var lt = $("#lt").val();
       var xe = $("#xe").val();
       var lmaxu = $("#lmaxu").val();
-      var lflatu = $("#lflatu").val();
       var xcanard = $("#xcanard").val();
       var lrd = $("#lrd").val();
       var mfuselaje = $("#mfuselaje").val();
@@ -94,7 +106,7 @@
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
       var str1 = `{"tipo": "geo","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
-      "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","lflatu": "${lflatu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
+      "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
       "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
       ws.send(str1);
 //      var newMessage = document.createElement('p');
