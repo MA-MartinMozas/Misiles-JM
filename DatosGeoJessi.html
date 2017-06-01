@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MISILES JM</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="selecgeo.js"></script>
+        <script src="pasar.js"></script>
+
+</head>
+
+<body onload="customFormDatosGeo()">
+<div id="wrapper">
+
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="SelecciónGeo.html">MISILES JM</a>
+            </div>
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="SeleccionGeo.html"><i class="fa fa-fw fa-dot-circle-o"></i> Selección geometría</a>
+                    </li>
+                    <li>
+                        <a href="DatosGeo.html"><i class="fa fa-fw fa-bar-chart-o"></i> Datos Geometría</a>
+                    </li>
+                    <li>
+                        <a href="ResultadosGeo.html"><i class="fa fa-fw fa-table"></i> Resultados </a>
+                    </li>
+                    <li>
+                        <a href="Mision.html"><i class="fa fa-fw fa-edit"></i> Misión</a>
+                    </li>
+
+                    <li>
+                        <a href="DatosMision.html"><i class="fa fa-fw fa-wrench"></i> Datos Misión</a>
+                    </li>
+
+
+                    <li>
+                        <a href="ResultadosMis.html"><i class="fa fa-fw fa-dashboard"></i> Resultados Misión</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+
+<div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Datos geometría
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard"></i>  <a href="SelecciónGeo.html">SelecciónGeo</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-bar-chart-o"></i> Datos geometría
+                            </li>
+                        </ol>
+                    </div>
+                    <p>A continuación introduce las variables requeridas</p>
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center"  > Tipo de aleta = </p>
+                        <p class="col-lg-2 text-center" id="finType"  val="finType"></p>
+                    <!--en esta parte se recibe y se printa el valor del tipo de aleta seleccionado-->
+                    <!--en lo siguiente se adjudicará el valor de las variables para el cálculo-->
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" id="dp" > d = </p>
+                        <input class="text col-lg-2" type="text" placeholder="0.15" id="d"> </input>
+                        <p class="col-lg-2 text-center"  id="lap"> la = </p>
+                        <input class="text col-lg-2" type="text" placeholder="2.99" id="la"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text"  id="Mp"> M = </p>
+                        <input class="text col-lg-2" type="text" placeholder="2" id="M"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="rhop"> rho = </p>
+                        <input class="text col-lg-2" type="text" placeholder="1.225" id="rho"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="ap"> a = </p>
+                        <input class="text col-lg-2" type="text" placeholder="340" id="a"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="mup"> mu = </p>
+                        <input class="text col-lg-2" type="text" placeholder="1.7894*10**-5" id="mu"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="lcp"> lc = </p>
+                        <input class="text col-lg-2" type="text" placeholder="0.578" id="lc"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="bp"> b = </p>
+                        <input class="text col-lg-2" type="text"  placeholder="0.66"id="b"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="xep"> xe = </p>
+                        <input class="text col-lg-2" type="text"  placeholder="3.40" id="xe"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="lmaxup"> lmaxu = </p>
+                        <input class="text col-lg-2" type="text" placeholder="0.1652" id="lmaxu"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="xcanardp"> xcanard = </p>
+                        <input class="text col-lg-2" type="text" placeholder="0.4538" id="xcanard"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="lrdp"> lrd = </p>
+                        <input class="text col-lg-2" type="text" placeholder="0.0827" id="lrd"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="mfuselajep"> mfuselaje = </p>
+                        <input class="text col-lg-2" type="text" placeholder="51.14" id="mfuselaje"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="mcabezap"> mcabeza = </p>
+                        <input class="text col-lg-2" type="text" placeholder="4.96" id="mcabeza"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="maletasp"> maletas = </p>
+                        <input class="text col-lg-2" type="text" placeholder="7.9" id="maletas"> </input>
+
+                    <p class="col-lg-12"></p>
+                        <p class="col-lg-2 text-center" type="text" id="mcanardp"> mcanard = </p>
+                        <input class="text col-lg-2" type="text" placeholder="4" id="mcanard"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="Cnalphabetap"> cnalphabeta = </p>
+                        <input class="text col-lg-2" type="text" placeholder="2" id="Cnalphabeta"> </input>
+                        <p class="col-lg-2 text-center" type="text" id="Cnsatp"> Cnsat = </p>
+                        <input class="text col-lg-2" type="text" placeholder="1.4" id="Cnsat"> </input>
+
+
+
+
+
+
+
+                </div>
+                <!-- /.row -->
+
+                 <input type="submit" id="button1" value="Calcular"  /><br />
+                <!--este botón tiene de función activar el envío de las variables introducidas al archivo pasar.js-->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+
+    <!-- Flot Charts JavaScript -->
+    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="js/plugins/flot/flot-data.js"></script>
+
+</body>
+
+</html>
