@@ -5,15 +5,18 @@
     ws.onopen = function(evt) {
       var conn_status = document.getElementById('conn_text');
 //      conn_status.innerHTML = "Connection status: Connected!"
+
     };
     ws.onmessage = function(evt) {
       var newMessage = document.createElement('p');
       var obj = JSON.parse(evt.data);
-
-//      creamos una variable llamando al marcador del diccionario por lo que unimos el valor a esa variable
+//se crea una variable obj que será igual al diccionario result mandado por python
+// mediante el comando document.getElementById asignaremos el valor del diccionario obj que tenga el marcador nombrado a la id indicada
+//lo cual se utilizará en su representación en ResultadosGeo
 // #Primero, lo realizamos para diseño aerodinámico del misil
 
       document.getElementById("Rex").innerHTML = obj.Rex;
+//  ej: asigna a la id = Rex el valor del diccionario obj que este asociado al marcador Rex
       document.getElementById("supcil").innerHTML = obj.supcil;
       document.getElementById("supref").innerHTML = obj.supref;
       document.getElementById("supcono").innerHTML = obj.supcono;
@@ -31,6 +34,7 @@
       document.getElementById("Xcgaletas").innerHTML = obj.Xcgaletas;
       document.getElementById("Xcgcanard").innerHTML = obj.Xcgcanard;
       document.getElementById("m").innerHTML = obj.m;
+
       document.getElementById("Xcg").innerHTML = obj.Xcg;
       document.getElementById("Cnalphawing").innerHTML = obj.Cnalphawing;
       document.getElementById("Xcpwing").innerHTML = obj.Xcpwing;
@@ -49,7 +53,6 @@
 
 // #Segundo, lo realizamos para definir la misión
       document.getElementById("K").innerHTML = obj.K;
-      // POR QUÉ ME SALE LA K MORADAAAAAAAAAAAAAAAAAAAAAAAAA?????????????
       document.getElementById("deltati").innerHTML = obj.deltati;
       document.getElementById("etamnm").innerHTML = obj.etamnm;
       document.getElementById("t").innerHTML = obj.t;
@@ -59,6 +62,7 @@
       document.getElementById("incrementdeltam").innerHTML = obj.incrementdeltam;
       document.getElementById("ti").innerHTML = obj.ti;
       document.getElementById("etamncalculado").innerHTML = obj.etamncalculado;
+      document.getElementById("fun").innerHTML = obj.fun;
 
 
 
@@ -70,23 +74,20 @@
     };
     ws.onclose = function(evt) {
       alert ("Connection closed");
+//      en caso de cierre de conexión o fallo de la página aparecerá una ventana donde indica que la conexión ha sido cerrada
     };
-// este boton será el que este en la pag de datos de geometría al pulsarlo se mandan las variables
+// la siguiente función se activa al clickear en el boton "calcular" de la página DatosGeo
     $("#button1").click(function(evt) {
       evt.preventDefault();
-//        aqui tenemos que meter tantas variables como inputs tenemos que introducir
+//    se crea una variable a la que se le asigna el valor del input indentificado por su id
       var d = $("#d").val();
       var M = $("#M").val();
       var rho = $("#rho").val();
       var a = $("#a").val();
       var mu= $("#mu").val();
       var la = $("#la").val();
-      var lx = $("#lx").val();
       var lc = $("#lc").val();
-      var ln = $("#ln").val();
       var b = $("#b").val();
-      var c = $("#c").val();
-      var lt = $("#lt").val();
       var xe = $("#xe").val();
       var lmaxu = $("#lmaxu").val();
       var xcanard = $("#xcanard").val();
@@ -97,31 +98,37 @@
       var mcanard = $("#mcanard").val();
       var Cnalphabeta = $("#Cnalphabeta").val();
       var Cnsat = $("#Cnsat").val();
-      var finType = finType;
+      //var finType = finType;
 //no entiendo porque no reconoce el fintype si la variable esta definida como local en el selecgeo y estan ambos llamados en datosgeo!!!!!
 
 
-
+      var finType = document.getElementById('finType').innerHTML;
 
       <!--With this line the dict format is constructed-->
       <!--note that the ` is crucial-->
-//      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
+//  se crea un diccionario (str1) donde se introducen un marcados y le asigna una de las variables anteriormente creadas
+//además le asignaremos un valor por defecto que nos permitirá en caso de no introducir valores en los inputs o que uno no se introduzca la página siga funcionando
+//tmabién nos permitirá en el caso del canard al esconder su input asignarle a sus datos un valor de 0 por lo que los cálculos se realizarán como si no tuviese canard
+//evitando de esta manera un condicional en el código de python
 
-      var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lx": "${lx || "1"}","lc": "${lc || "1"}","ln": "${ln || "1"}",
-      "b": "${b || "1"}","c": "${c || "1"}","lt": "${lt || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
+      var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lc": "${lc || "1"}",
+      "b": "${b || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
       "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
+//      mandamos el diccionario (str1) a python
       ws.send(str1);
-//      var newMessage = document.createElement('p');
-//      newMessage.textContent = "Client: " + message;
-//      document.getElementById('messages_txt').appendChild(newMessage);
+
 
     });
 
-//    este boton será el que este en datos misión y al pulsarlo se mandarán estas variables
+    function prueba(){
+        console.log("Hola Mundo");
+    }
+
+//   esta función se activará al pulsar el botón de "calcular" de la página DatosMis
     $("#button2").click(function(evt) {
       evt.preventDefault();
 //        aqui tenemos que meter tantas variables como inputs tenemos que introducir en mision con el id del input donde lo introducimos
-      var etamnnmax = $("#etamnnmax").val();
+      var etamnmax = $("#etamnmax").val();
       var vm = $("#vm").val();
       var vt = $("#vt").val();
       var deltato = $("#deltato").val();
@@ -131,14 +138,14 @@
       var etatn = $("#etatn").val();
       var am = $("#am").val();
       var t = $("#t").val();
-
+      var targetType = document.getElementById('targetType').innerHTML;
 
 
       <!--With this line the dict format is constructed-->
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "mis","etamnnmax": "${etamnnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
+      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
       "deltat": "${deltat || "1"}","deltamo": "${deltamo || "1"}","etatn": "${etatn || "1"}","am": "${am || "1"}","t": "${t || "1"}"}`;
       ws.send(str2);
 

@@ -33,7 +33,16 @@ function customMisionDatos(){
         $("#").hide();$("#").hide();
 
     }
-    var frontSectionType = sessionStorage.getItem("targetType");
+    var targetType = sessionStorage.getItem("targetType");
+
+
+     if (targetType==1) {
+       targetType= "maniobrante"
+    }
+    else {
+        targetType = "No_maniobrante"
+    }
+  document.getElementById("targetType").innerHTML = targetType;
 
 
 

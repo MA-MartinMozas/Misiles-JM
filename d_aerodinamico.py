@@ -4,22 +4,69 @@ import ws
 
 # Definimos una clase para el misil entero
 class geometry(object):
-    def __init__(self, M, rho, a, mu,d,la,lx):
+    def __init__(self, M, rho, a, mu,d,la,lc,xe,lmaxu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,fin):
         self.M = M
         self.rho = rho
         self.a = a
         self.mu = mu
         self.d = d
         self.la = la
-        self._supcil = 0
-        self._Rex = 0
-        self._supref = 0
-        self.lx = lx
+
+        self.lc = lc
+        self.xe = xe
+        self.lmaxu = lmaxu
+        self.xcanard = xcanard
+        self.lrd = lrd
+        self.mfuselaje = mfuselaje
+        self.mcabeza = mcabeza
+        self.maletas = maletas
+        self.mcanard = mcanard
+        self.fin = fin
+
+    # Primero se calcula el centro de gravedad.
+    # Para calcular Xcg se divide el misil en cuatro partes: fuselaje, sección delantera, aletas, canard.
+    # Posteriormente, se calcula el Xcg de cada parte, respecto a la proa, luego se calcula la masa del misil total y por último el Xcg del misil
+
+    # Definimos el centro de masas del fuselaje respecto a la proa
+    @property
+    def Xcgfus(self):
+        return self.la / 2 + self.lc
+
+    # Definimos el centro de masas de la sección delantera respecto a la proa
+    @property
+    def Xcgcabeza(self):
+        return self.lc * 2 / 3
+
+    # Definimos el centro de masas de las aletas respecto a la proa
+    @property
+    def Xcgaletas(self):
+        # Aquí hay que meter CONDICIONAAAL!
+        if self.fin == "Delta":
+            return self.xe + 2 * self.lmaxu / 3
+        else:
+            return self.xe + self.lmaxu / 2
+
+    # Definimos el centro de masas del canard respecto a la proa
+    @property
+    def Xcgcanard(self):
+        return self.xcanard + self.lrd / 2
+
+    # Calculamos la masa del misil
+    @property
+    def m(self):
+        return self.mfuselaje + self.mcabeza + self.maletas + self.mcanard
+
+    # Definimos el centro de masas del misil completo respecto a la proa
+    @property
+    def Xcg(self):
+        return (self.mfuselaje * self.Xcgfus + self.mcabeza * self.Xcgcabeza + self.maletas * self.Xcgaletas + self.mcanard * self.Xcgcanard) / self.m
+
 
     # Definimos el Reynolds
     @property
     def Rex(self):
-        return (self.rho * self.M * self.a * self.lx) / self.mu
+        return (self.rho * self.M * self.a * self.Xcg) / self.mu
+
     # Definimos la superficie cilíndrica
     @property
     def supcil(self):
@@ -32,24 +79,22 @@ class geometry(object):
 # Definimos una clase para el tipo de cabeza que hereda de la clase para el misil entero
 class cabeza(object):
 
-    def __init__(self, lc , ln, d_inic):
+    def __init__(self, d_inic):
 
         self.d_inic = d_inic
-        self.ln = ln
-        self.lc = lc
         self._supcono = 0
 
     # Definimos la superficie del cono porque es común a todos los tipos de cabeza
     @property
     def supcono(self):
-        return np.pi*(self.d_inic.d/2)*np.sqrt((self.d_inic.d/2)**2+self.lc**2)
+        return np.pi*(self.d_inic.d/2)*np.sqrt((self.d_inic.d/2)**2+self.d_inic.lc**2)
 
 
 # Definimos clase cónica que hereda de cabeza
 class conica(cabeza):
 
-    def __init__(self, lc , ln, d_inic):
-        super().__init__(lc , ln, d_inic)
+    def __init__(self, d_inic):
+        super().__init__(d_inic)
 
         self._angucono = 0
         self._CDWC = 0
@@ -58,7 +103,7 @@ class conica(cabeza):
     # Cálculo del ángulo del cono
     @property
     def angucono(self):
-        return np.tan(self.d_inic.d/(2*self.ln))
+        return np.tan(self.d_inic.d/(2*self.d_inic.lc))
 
     # Resistencia de onda cono
 
@@ -76,8 +121,8 @@ class conica(cabeza):
 # Definimos clase ojival que hereda de cabeza
 class ojival(cabeza):
 
-    def __init__(self, lc, ln, d_inic ):
-        super().__init__(lc, ln, d_inic)
+    def __init__(self, d_inic ):
+        super().__init__(d_inic)
         self._anguojiva = 0
         self._CDWO = 0
         self._DWojiva = 0
@@ -85,14 +130,14 @@ class ojival(cabeza):
     # Cálculo del ángulo de la ojiva
     @property
     def anguojiva(self):
-        return 2*np.tan(self.d_inic.d/(2*self.ln))
+        return 2*np.tan(self.d_inic.d/(2*self.d_inic.lc))
 
     # Resistencia de onda ojiva
 
     # Cálculo del coeficiente de resistencia de onda ojiva
     @property
     def CDWO(self):
-        return ((0.083 + 0.096 / (self.d_inic.M ** 2)) * (self.anguojiva / 10) ** 1.69)*(1-(392*(self.ln/2)**2-32)/(28*(self.d_inic.M+18)*(self.ln/self.d_inic.d)**2))
+        return ((0.083 + 0.096 / (self.d_inic.M ** 2)) * (self.anguojiva / 10) ** 1.69)*(1-(392*(self.d_inic.lc/2)**2-32)/(28*(self.d_inic.M+18)*(self.d_inic.lc/self.d_inic.d)**2))
 
     # Cálculo de la Resistencia de onda ojiva
     @property
@@ -128,29 +173,11 @@ class r_friccion (object) :
 # Definimos una clase para Margen de estabilidad estático que hereda de objeto y es común a todos los tipos de cabeza
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO. LUEGO BORRAR ESTA NOTITA
 class m_estabilidad(object):
-    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin):
+    def __init__(self, d_inic, b, Cnalphabeta):
         self.d_inic= d_inic
         self.b= b
-        self.c= c
-        self.lt= lt
-        self.ln = ln
+        self._lt= 0
         self.Cnalphabeta = Cnalphabeta
-        self.lc = lc
-        self.xe = xe
-        self.lmaxu = lmaxu
-        self.xcanard = xcanard
-        self.lrd = lrd
-        self.mfuselaje = mfuselaje
-        self.mcabeza = mcabeza
-        self.maletas = maletas
-        self.mcanard = mcanard
-        self.fin = fin
-        self._m = 0
-        self._Xcg = 0
-        self._Xcgfus = 0
-        self._Xcgcabeza = 0
-        self._Xcgaletas = 0
-        self._Xcgcanard = 0
         self._Cnalphawing = 0
         self._Xcpbeta = 0
         self._Xcpwing = 0
@@ -160,56 +187,22 @@ class m_estabilidad(object):
         self._Cmalpha = 0
         self._h = 0
 
-    # Primero se calcula el centro de gravedad.
-    # Para calcular Xcg se divide el misil en cuatro partes: fuselaje, sección delantera, aletas, canard.
-    # Posteriormente, se calcula el Xcg de cada parte, respecto a la proa, luego se calcula la masa del misil total y por último el Xcg del misil
-
-    # Definimos el centro de masas del fuselaje respecto a la proa
     @property
-    def Xcgfus(self):
-        return self.d_inic.la / 2 + self.lc
-
-    # Definimos el centro de masas de la sección delantera respecto a la proa
-    @property
-    def Xcgcabeza(self):
-        return self.lc * 2/3
-
-    # Definimos el centro de masas de las aletas respecto a la proa
-    @property
-    def Xcgaletas(self):
-        # Aquí hay que meter CONDICIONAAAL!
-        if self.fin == "Delta":
-            return self.xe + 2*self.lmaxu/3
-        else:
-            return self.xe + self.lmaxu/2
-
-    # Definimos el centro de masas del canard respecto a la proa
-    @property
-    def Xcgcanard(self):
-        return  self.xcanard + self.lrd/2
-
-    # Calculamos la masa del misil
-    @property
-    def m(self):
-        return self.mfuselaje+self.mcabeza+self.maletas+self.mcanard
-
-    # Definimos el centro de masas del misil completo respecto a la proa
-    @property
-    def Xcg(self):
-        return (self.mfuselaje*self.Xcgfus+self.mcabeza*self.Xcgcabeza+self.maletas*self.Xcgaletas+self.mcanard*self.Xcgcanard)/self.m
+    def lt(self):
+        return self.d_inic.la + self.d_inic.lc
 
     # Continuamos con el cálculo del margen de estabilidad estático
     @property
     def Cnalphawing(self):
-        return (4/np.sqrt(self.d_inic.M**2-1))*(1-(1/(2*np.sqrt(self.d_inic.M**2-1)*(self.b/self.c))))
+        return (4/np.sqrt(self.d_inic.M**2-1))*(1-(1/(2*np.sqrt(self.d_inic.M**2-1)*(self.b/self.d_inic.lmaxu))))
 
     @property
     def Xcpbeta(self):
-        return 2*self.ln/3
+        return 2*self.d_inic.lc/3
 
     @property
     def Xcpwing(self):
-        return self.lt - self.c/2
+        return self.lt - self.d_inic.lmaxu/2
 
     @property
     def Kwb(self):
@@ -221,11 +214,11 @@ class m_estabilidad(object):
 
     @property
     def Cnalpha(self):
-        return(self.Cnalphabeta + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref)
+        return(self.Cnalphabeta + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.d_inic.lmaxu/self.d_inic.supref)
 
     @property
     def Cmalpha(self):
-        return(self.Cnalphabeta*((self.Xcg-self.Xcpbeta)/self.d_inic.d) + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.c/self.d_inic.supref*((self.Xcg-self.Xcpwing)/self.d_inic.d))
+        return(self.Cnalphabeta*((self.d_inic.Xcg-self.Xcpbeta)/self.d_inic.d) + self.Cnalphawing*(self.Kwb + self.Kbw)*self.b*self.d_inic.lmaxu/self.d_inic.supref*((self.d_inic.Xcg-self.Xcpwing)/self.d_inic.d))
 
     @property
     def h(self):
@@ -236,8 +229,8 @@ class m_estabilidad(object):
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO
 class manio_cap(m_estabilidad):
 
-    def __init__(self, d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin, Cnsat):
-        super().__init__(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta,fin)
+    def __init__(self, d_inic, b, Cnalphabeta, Cnsat):
+        super().__init__(d_inic, b, Cnalphabeta)
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
         self._Cndelta = 0
@@ -255,15 +248,15 @@ class manio_cap(m_estabilidad):
 
     @property
     def Cndelta(self):
-        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref
+        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.d_inic.lmaxu / self.d_inic.supref
 
     @property
     def Cmdelta(self):
-        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.c / self.d_inic.supref * ((self.Xcg - self.Xcpwing) / self.d_inic.d)
+        return self.Cnalphawing * (self.Kmb + self.Kbm) * self.b * self.d_inic.lmaxu / self.d_inic.supref * ((self.d_inic.Xcg - self.Xcpwing) / self.d_inic.d)
 
     @property
     def maniobrabilidad(self):
-        return ((0.5*self.d_inic.rho*(self.d_inic.a*self.d_inic.M)**2*self.d_inic.supref)/self.m*9.81)*(self.Cndelta+self.Cmdelta/self.h)
+        return ((0.5*self.d_inic.rho*(self.d_inic.a*self.d_inic.M)**2*self.d_inic.supref)/self.d_inic.m*9.81)*(self.Cndelta+self.Cmdelta/self.h)
 
     @property
     def alphasatur(self):
@@ -299,21 +292,7 @@ def principal(geo):
     a = geo['a']
     mu = geo['mu']
     la = geo['la']
-    lx = geo['lx']
     rho = geo["rho"]
-    d_inic = geometry( M,rho,a,mu,d,la,lx)
-
-
-    lc = geo["lc"]
-    ln = geo["ln"]
-    micabeza = cabeza(lc, ln, d_inic)
-    miconica = conica(lc, ln, d_inic)
-    c_fric= r_friccion(d_inic)
-    miojiva = ojival(lc, ln, d_inic)
-
-    b = geo['b']
-    c = geo['c']
-    lt = geo['lt']
     xe = geo['xe']
     lmaxu = geo['lmaxu']
     xcanard = geo['xcanard']
@@ -322,24 +301,35 @@ def principal(geo):
     mcabeza = geo['mcabeza']
     maletas = geo['maletas']
     mcanard = geo['mcanard']
+    lc = geo["lc"]
+    d_inic = geometry( M,rho,a,mu,d,la, lc, xe,lmaxu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,fin)
+
+
+    micabeza = cabeza(d_inic)
+    miconica = conica(d_inic)
+    c_fric= r_friccion(d_inic)
+    miojiva = ojival(d_inic)
+
+    b = geo['b']
+
     Cnalphabeta = geo['Cnalphabeta']
-    mim_estabilidad = m_estabilidad(d_inic,b,c,lt,ln,lc,xe,lmaxu,xcanard,lrd,mfuselaje,mcabeza,maletas,mcanard,Cnalphabeta,fin)
+    mim_estabilidad = m_estabilidad(d_inic,b,Cnalphabeta)
 
     Cnsat = geo['Cnsat']
-    mimanio_cap = manio_cap(d_inic, b, c, lt, ln, lc, xe, lmaxu, xcanard, lrd, mfuselaje, mcabeza, maletas, mcanard, Cnalphabeta, fin , Cnsat)
+    mimanio_cap = manio_cap(d_inic, b, Cnalphabeta, Cnsat)
 
     resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
                   "supcono": micabeza.supcono,
                   "angucono": miconica.angucono, "CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
                   "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva,
                   "CDfilam": c_fric.CDfilam, "CDfi": c_fric.CDfi, "CDflam": c_fric.CDflam,
-                  "Xcgfus": mim_estabilidad.Xcgfus,"Xcgcabeza": mim_estabilidad.Xcgcabeza,"Xcgaletas": mim_estabilidad.Xcgaletas,
-                  "Xcgcanard": mim_estabilidad.Xcgcanard,"m": mim_estabilidad.m,
-                  "Xcg": mim_estabilidad.Xcg,"Cnalphawing": mim_estabilidad.Cnalphawing,"Xcpbeta": mim_estabilidad.Xcpbeta,
+                  "Xcgfus": d_inic.Xcgfus,"Xcgcabeza": d_inic.Xcgcabeza,"Xcgaletas": d_inic.Xcgaletas,
+                  "Xcgcanard": d_inic.Xcgcanard,"m": d_inic.m,
+                  "Xcg": d_inic.Xcg,"Cnalphawing": mim_estabilidad.Cnalphawing,"Xcpbeta": mim_estabilidad.Xcpbeta,
                   "Xcpwing": mim_estabilidad.Xcpwing,"Kwb": mim_estabilidad.Kwb,
                   "Kbw": mim_estabilidad.Kbw,"Cnalpha":mim_estabilidad.Cnalpha,"Cmalpha": mim_estabilidad.Cmalpha, "h": mim_estabilidad.h,
                   "Cndelta": mimanio_cap.Cndelta,"Cmdelta": mimanio_cap.Cmdelta,"Kbm": mimanio_cap.Kbm,"maniobrabilidad": mimanio_cap.maniobrabilidad,
-                  "alphasatur": mimanio_cap.alphasatur,"nmaximo": mimanio_cap.nmaximo,"deltamani": mimanio_cap.deltamani}
+                  "alphasatur": mimanio_cap.alphasatur,"nmaximo": mimanio_cap.nmaximo,"deltamani": mimanio_cap.deltamani,"lt": mim_estabilidad.lt}
 
 
     for key, value in resultados.items():
@@ -350,17 +340,17 @@ def principal(geo):
 
 if __name__ == '__main__':
     #importante no cambiar nombre de d_inic
-    d_inic = geometry( 1,1,1,1,1,1,1)
+    d_inic = geometry( 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
     print(d_inic.Rex)
     # prueba de que con la barra baja no coge el valor obtenido en la función si no el dado en el init
     print(d_inic.supref)
     print(d_inic._supref)
 
-    miconica= conica(2,3,d_inic)
+    miconica= conica(d_inic)
     print(miconica.angucono)
     print(miconica.CDWC)
     print(miconica.DWcono)
-    micabeza= cabeza(2,3,d_inic)
+    micabeza= cabeza(d_inic)
     print(cabeza.supcono)
 
     c_fric= r_friccion(d_inic)

@@ -103,9 +103,11 @@
                     <p class="col-lg-12"></p>
                         <p class="col-lg-2 text-center"  > Tipo de aleta = </p>
                         <p class="col-lg-2 text-center" id="finType"  val="finType"></p>
+                    <!--en esta parte se recibe y se printa el valor del tipo de aleta seleccionado-->
+                    <!--en lo siguiente se adjudicará el valor de las variables para el cálculo-->
                     <p class="col-lg-12"></p>
                         <p class="col-lg-2 text-center" id="dp" > d = </p>
-                        <input class="text col-lg-2" type="text"  id="d"> </input>
+                        <input class="text col-lg-2" type="text" placeholder="0.15" id="d"> </input>
                         <p class="col-lg-2 text-center"  id="lap"> la = </p>
                         <input class="text col-lg-2" type="text"  id="la"> </input>
 
@@ -118,24 +120,16 @@
                     <p class="col-lg-12"></p>
                         <p class="col-lg-2 text-center" type="text" id="ap"> a = </p>
                         <input class="text col-lg-2" type="text"  id="a"> </input>
-                        <p class="col-lg-2 text-center" type="text" id="lxp"> lx = </p>
-                        <input class="text col-lg-2" type="text"  id="lx"> </input>
                         <p class="col-lg-2 text-center" type="text" id="mup"> mu = </p>
                         <input class="text col-lg-2" type="text"  id="mu"> </input>
 
                     <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" type="text" id="lnp"> ln = </p>
-                        <input class="text col-lg-2" type="text"  id="ln"> </input>
                         <p class="col-lg-2 text-center" type="text" id="lcp"> lc = </p>
                         <input class="text col-lg-2" type="text"  id="lc"> </input>
                         <p class="col-lg-2 text-center" type="text" id="bp"> b = </p>
                         <input class="text col-lg-2" type="text"  id="b"> </input>
 
                     <p class="col-lg-12"></p>
-                        <p class="col-lg-2 text-center" type="text" id="cp"> c = </p>
-                        <input class="text col-lg-2" type="text"  id="c"> </input>
-                        <p class="col-lg-2 text-center" type="text" id="ltp"> lt = </p>
-                        <input class="text col-lg-2" type="text"  id="lt"> </input>
                         <p class="col-lg-2 text-center" type="text" id="xep"> xe = </p>
                         <input class="text col-lg-2" type="text"  id="xe"> </input>
 
@@ -173,6 +167,7 @@
                 <!-- /.row -->
 
                  <input type="submit" id="button1" value="Calcular"  /><br />
+                <!--este botón tiene de función activar el envío de las variables introducidas al archivo pasar.js-->
 
             </div>
             <!-- /.container-fluid -->
