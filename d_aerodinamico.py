@@ -110,7 +110,7 @@ class conica(cabeza):
     # Cálculo del coeficiente de resistencia de onda cono
     @property
     def CDWC(self):
-        return (0.083+0.096/(self.d_inic.M**2))*(self.angucono/10)**1.69
+        return (0.083+0.096/(self.d_inic.M**2))*(self.angucono*180/np.pi/10)**1.69
 
     # Cálculo de la Resistencia de onda cono
     @property
@@ -137,7 +137,7 @@ class ojival(cabeza):
     # Cálculo del coeficiente de resistencia de onda ojiva
     @property
     def CDWO(self):
-        return ((0.083 + 0.096 / (self.d_inic.M ** 2)) * (self.anguojiva / 10) ** 1.69)*(1-(392*(self.d_inic.lc/2)**2-32)/(28*(self.d_inic.M+18)*(self.d_inic.lc/self.d_inic.d)**2))
+        return ((0.083 + 0.096 / (self.d_inic.M ** 2)) * (self.anguojiva*180/np.pi / 10) ** 1.69)*(1-(392*(self.d_inic.lc/2)**2-32)/(28*(self.d_inic.M+18)*(self.d_inic.lc/self.d_inic.d)**2))
 
     # Cálculo de la Resistencia de onda ojiva
     @property
