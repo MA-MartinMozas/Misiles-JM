@@ -114,7 +114,7 @@
 
       var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "0.15"}", "M": "${M || "2"}", "rho": "${rho || "1.225"}", "a": "${a || "340"}", "mu": "${mu || "0.000017894"}", "la": "${la || "2.99"}","lc": "${lc || "0.578"}",
       "b": "${b || "0.66"}","xe": "${xe || "3.40"}","lmaxu": "${lmaxu || "0.1652"}","xcanard": "${xcanard || "0"}","lrd": "${lrd || "0.0827"}","mfuselaje": "${mfuselaje || "51.14"}","mcabeza": "${mcabeza || "4.96"}",
-      "maletas": "${maletas || "7.9"}","mcanard": "${mcanard || "0"}","Cnalphabeta": "${Cnalphabeta || "2"}","Cnsat": "${Cnsat || "1.4"}"}`;
+      "maletas": "${maletas || "7.9"}","mcanard": "${mcanard || "4"}","Cnalphabeta": "${Cnalphabeta || "2"}","Cnsat": "${Cnsat || "1.4"}"}`;
 //      mandamos el diccionario (str1) a python
       ws.send(str1);
 

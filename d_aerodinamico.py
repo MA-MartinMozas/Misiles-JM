@@ -152,7 +152,7 @@ class r_friccion (object) :
     def __init__(self, d_inic):
         self.d_inic= d_inic
 
-    # Cálculo de los coeficientes de fricción
+    # Cálculo de los coeficientes de fricción laminar
     @property
     def CDfilam(self):
         return 0.664 / np.sqrt(self.d_inic.Rex)
@@ -169,6 +169,24 @@ class r_friccion (object) :
     @property
     def Df(self):
         return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDflam
+            # MANUUU OJO DEFINIR RESULTADOS CDfiturb y CDfturb en el resto de sitios!! son resultados que hay que dar nuevos, en lugar de CDfilam y CDflam!! Cuando el Reynolds es superior a 2*10**7
+            # # Cálculo de los coeficientes de fricción turbulento
+            # @property
+            # def CDfiturb(self):
+            #     return 0.288*(np.log10(self.d_inic.Rex))**-2.45
+            #
+            # @property
+            # def CDfi(self):
+            #     return 1.25*0.288*(np.log10(self.d_inic.Rex))**-2.45
+            #
+            # @property
+            # def CDfturb(self):
+            #     return ((1 / (1 + 0.2 * self.d_inic.M ** 2)**0.467)) * self.CDfi
+            #
+            # # Cálculo de la Resistencia de fricción
+            # @property
+            # def Df(self):
+            #     return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDfturb
 
 # Definimos una clase para Margen de estabilidad estático que hereda de objeto y es común a todos los tipos de cabeza
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO. LUEGO BORRAR ESTA NOTITA
