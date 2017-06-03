@@ -318,7 +318,7 @@ def principal(geo):
     Cnsat = geo['Cnsat']
     mimanio_cap = manio_cap(d_inic, b, Cnalphabeta, Cnsat)
 
-    resultados = {"Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
+    resultados = {"tipo":"geo", "Rex": d_inic.Rex, "supcil": d_inic.supcil, "supref": d_inic.supref,
                   "supcono": micabeza.supcono,
                   "angucono": miconica.angucono, "CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
                   "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva,
@@ -333,8 +333,11 @@ def principal(geo):
 
 
     for key, value in resultados.items():
-        # "%.3f" %value,
-        resultados[key] = "%.3f" % value,
+        if key == "tipo":
+            resultados[key] = value
+        else:
+            # "%.3f" %value,
+            resultados[key] = "%.3f" % value,
 
     return resultados
 

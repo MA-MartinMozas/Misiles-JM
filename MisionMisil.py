@@ -174,19 +174,20 @@ def principal2(mis):
     minaveproporc = naveproporc(deltamo, etatn, am, t,etamnmax, vm, vt, deltato, ro, blanco)
 
     # aquí tenemos que introducir un marcador por cada resultado que queramos sacar y le asignamos el valor
-    resultados = {"fun": "funciona", "K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,
+    resultados = {"fun": "hay_impacto", "K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,
                   "deltamc": minaveproporc.deltamc,"incrementodeltam": minaveproporc.incrementodeltam,
                   "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etmncalculado
 
                   }
+    print(resultados)
     if resultados["etamnm"] == 0:
-        resultados = {"fun":"no_funciona"}
+        resultados = {"fun":"no_impacto"}
         return resultados
     elif resultados["K"]== 90:
-        resultados = {"fun": "no_funciona"}
+        resultados = {"fun": "no_impacto"}
         return resultados
     elif resultados["etamncalculado"]== 0:
-        resultados = {"fun": "no_funciona"}
+        resultados = {"fun": "no_impacto"}
         return resultados
     else:
         for key, value in resultados.items():

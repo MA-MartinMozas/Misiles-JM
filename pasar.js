@@ -14,9 +14,9 @@
 // mediante el comando document.getElementById asignaremos el valor del diccionario obj que tenga el marcador nombrado a la id indicada
 //lo cual se utilizará en su representación en ResultadosGeo
 // #Primero, lo realizamos para diseño aerodinámico del misil
-
+    //  ej: asigna a la id = Rex el valor del diccionario obj que este asociado al marcador Rex
+    if (obj.tipo == "geo"){
       document.getElementById("Rex").innerHTML = obj.Rex;
-//  ej: asigna a la id = Rex el valor del diccionario obj que este asociado al marcador Rex
       document.getElementById("supcil").innerHTML = obj.supcil;
       document.getElementById("supref").innerHTML = obj.supref;
       document.getElementById("supcono").innerHTML = obj.supcono;
@@ -34,7 +34,6 @@
       document.getElementById("Xcgaletas").innerHTML = obj.Xcgaletas;
       document.getElementById("Xcgcanard").innerHTML = obj.Xcgcanard;
       document.getElementById("m").innerHTML = obj.m;
-
       document.getElementById("Xcg").innerHTML = obj.Xcg;
       document.getElementById("Cnalphawing").innerHTML = obj.Cnalphawing;
       document.getElementById("Xcpwing").innerHTML = obj.Xcpwing;
@@ -50,8 +49,12 @@
       document.getElementById("alphasatur").innerHTML = obj.alphasatur;
       document.getElementById("nmaximo").innerHTML = obj.nmaximo;
       document.getElementById("deltamani").innerHTML = obj.deltamani;
+    }
+
 
 // #Segundo, lo realizamos para definir la misión
+    else {
+      document.getElementById("fun").innerHTML = obj.fun;
       document.getElementById("K").innerHTML = obj.K;
       document.getElementById("deltati").innerHTML = obj.deltati;
       document.getElementById("etamnm").innerHTML = obj.etamnm;
@@ -63,6 +66,8 @@
       document.getElementById("ti").innerHTML = obj.ti;
       document.getElementById("etamncalculado").innerHTML = obj.etamncalculado;
       document.getElementById("fun").innerHTML = obj.fun;
+
+    }
 
 
 
@@ -98,10 +103,6 @@
       var mcanard = $("#mcanard").val();
       var Cnalphabeta = $("#Cnalphabeta").val();
       var Cnsat = $("#Cnsat").val();
-      //var finType = finType;
-//no entiendo porque no reconoce el fintype si la variable esta definida como local en el selecgeo y estan ambos llamados en datosgeo!!!!!
-
-
       var finType = document.getElementById('finType').innerHTML;
 
       <!--With this line the dict format is constructed-->
@@ -111,18 +112,16 @@
 //tmabién nos permitirá en el caso del canard al esconder su input asignarle a sus datos un valor de 0 por lo que los cálculos se realizarán como si no tuviese canard
 //evitando de esta manera un condicional en el código de python
 
-      var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "1"}", "M": "${M || "1"}", "rho": "${rho || "1"}", "a": "${a || "1"}", "mu": "${mu || "1"}", "la": "${la || "1"}","lc": "${lc || "1"}",
-      "b": "${b || "1"}","xe": "${xe || "1"}","lmaxu": "${lmaxu || "1"}","xcanard": "${xcanard || "1"}","lrd": "${lrd || "1"}","mfuselaje": "${mfuselaje || "1"}","mcabeza": "${mcabeza || "1"}",
-      "maletas": "${maletas || "1"}","mcanard": "${mcanard || "1"}","Cnalphabeta": "${Cnalphabeta || "1"}","Cnsat": "${Cnsat || "1"}"}`;
+      var str1 = `{"tipo": "geo","finType": "${finType}","d": "${d || "0.15"}", "M": "${M || "2"}", "rho": "${rho || "1.225"}", "a": "${a || "340"}", "mu": "${mu || "0.000017894"}", "la": "${la || "2.99"}","lc": "${lc || "0.578"}",
+      "b": "${b || "0.66"}","xe": "${xe || "3.40"}","lmaxu": "${lmaxu || "0.1652"}","xcanard": "${xcanard || "0"}","lrd": "${lrd || "0.0827"}","mfuselaje": "${mfuselaje || "51.14"}","mcabeza": "${mcabeza || "4.96"}",
+      "maletas": "${maletas || "7.9"}","mcanard": "${mcanard || "0"}","Cnalphabeta": "${Cnalphabeta || "2"}","Cnsat": "${Cnsat || "1.4"}"}`;
 //      mandamos el diccionario (str1) a python
       ws.send(str1);
 
 
     });
 
-    function prueba(){
-        console.log("Hola Mundo");
-    }
+
 
 //   esta función se activará al pulsar el botón de "calcular" de la página DatosMis
     $("#button2").click(function(evt) {
@@ -145,8 +144,8 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "1"}", "vm": "${vm|| "1"}", "vt": "${vt || "1"}", "deltato": "${deltato || "1"}", "ro": "${ro || "1"}",
-      "deltat": "${deltat || "1"}","deltamo": "${deltamo || "1"}","etatn": "${etatn || "1"}","am": "${am || "1"}","t": "${t || "1"}"}`;
+      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "50"}", "vm": "${vm|| "470"}", "vt": "${vt || "250"}", "deltato": "${deltato || "90"}", "ro": "${ro || "5000"}",
+      "deltat": "${deltat || "0"}","deltamo": "${deltamo || "15"}","etatn": "${etatn || "19.62"}","am": "${am || "3.5"}","t": "${t || "11"}"}`;
       ws.send(str2);
 
 //      var newMessage = document.createElement('p');
