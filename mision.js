@@ -27,10 +27,26 @@ function customMisionDatos(){
     var misionType = sessionStorage.getItem("misionType");
     if (misionType==1) {
 
+        $("#deltamo").hide();$("#deltamop").hide();
+        $("#etatn").hide();$("#etatnp").hide();
+        $("#am").hide();$("#amp").hide();
+        $("#deltamc").hide();$("#deltamcp").hide();
+        $("#incrementodeltam").hide();$("#incrementodeltamp").hide();
+        $("#etamncalculado").hide();$("#etamncalculadop").hide();
+        $("#ti").hide();$("#tip").hide();
+        misionType= "P_Pura"
+
 
     }
     if (misionType==2) {
-        $("#").hide();$("#").hide();
+        $("#K").hide();$("#Kp").hide();
+        $("#deltati").hide();$("#deltatip").hide();
+        $("#etamnm").hide();$("#etamnmp").hide();
+        $("#t").hide();$("#tp").hide();
+        $("#ri").hide();$("#rip").hide();
+        $("#xt").hide();$("#xtp").hide();
+
+        misionType= "N_Proporcional"
 
     }
     var targetType = sessionStorage.getItem("targetType");
@@ -41,8 +57,10 @@ function customMisionDatos(){
     }
     else {
         targetType = "No_maniobrante"
+        $("#etatn").hide();$("#etatnp").hide();
     }
   document.getElementById("targetType").innerHTML = targetType;
+  document.getElementById("misionType").innerHTML = misionType;
 
 
 

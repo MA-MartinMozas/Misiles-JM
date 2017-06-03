@@ -26,9 +26,9 @@
       document.getElementById("anguojiva").innerHTML = obj.anguojiva;
       document.getElementById("CDWO").innerHTML = obj.CDWO;
       document.getElementById("DWojiva").innerHTML = obj.DWojiva;
-      document.getElementById("CDfilam").innerHTML = obj.CDfilam;
+      document.getElementById("CDfilt").innerHTML = obj.CDfilam;
       document.getElementById("CDfi").innerHTML = obj.CDfi;
-      document.getElementById("CDflam").innerHTML = obj.CDflam;
+      document.getElementById("CDf").innerHTML = obj.CDflam;
       document.getElementById("Xcgfus").innerHTML = obj.Xcgfus;
       document.getElementById("Xcgcabeza").innerHTML = obj.Xcgcabeza;
       document.getElementById("Xcgaletas").innerHTML = obj.Xcgaletas;
@@ -49,23 +49,28 @@
       document.getElementById("alphasatur").innerHTML = obj.alphasatur;
       document.getElementById("nmaximo").innerHTML = obj.nmaximo;
       document.getElementById("deltamani").innerHTML = obj.deltamani;
+      document.getElementById("Flujo").innerHTML = obj.Flujo;
     }
 
 
 // #Segundo, lo realizamos para definir la misión
     else {
-      document.getElementById("fun").innerHTML = obj.fun;
-      document.getElementById("K").innerHTML = obj.K;
-      document.getElementById("deltati").innerHTML = obj.deltati;
-      document.getElementById("etamnm").innerHTML = obj.etamnm;
-      document.getElementById("t").innerHTML = obj.t;
-      document.getElementById("ri").innerHTML = obj.ri;
-      document.getElementById("xt").innerHTML = obj.xt;
-      document.getElementById("deltamc").innerHTML = obj.deltamc;
-      document.getElementById("incrementdeltam").innerHTML = obj.incrementdeltam;
-      document.getElementById("ti").innerHTML = obj.ti;
-      document.getElementById("etamncalculado").innerHTML = obj.etamncalculado;
-      document.getElementById("fun").innerHTML = obj.fun;
+    document.getElementById("fun").innerHTML = obj.fun;
+        if (misionType==1) {
+
+          document.getElementById("K").innerHTML = obj.K;
+          document.getElementById("deltati").innerHTML = obj.deltati;
+          document.getElementById("etamnm").innerHTML = obj.etamnm;
+          document.getElementById("t").innerHTML = obj.t;
+          document.getElementById("ri").innerHTML = obj.ri;
+          document.getElementById("xt").innerHTML = obj.xt;
+            }
+        else{
+          document.getElementById("deltamc").innerHTML = obj.deltamc;
+          document.getElementById("incrementodeltam").innerHTML = obj.incrementodeltam;
+          document.getElementById("ti").innerHTML = obj.ti;
+          document.getElementById("etamncalculado").innerHTML = obj.etamncalculado;
+      }
 
     }
 
@@ -137,19 +142,17 @@
       var etatn = $("#etatn").val();
       var am = $("#am").val();
       var targetType = document.getElementById('targetType').innerHTML;
+      var misionType = document.getElementById('misionType').innerHTML;
 
 
       <!--With this line the dict format is constructed-->
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "170"}", "vm": "${vm|| "700"}", "vt": "${vt || "400"}", "deltato": "${deltato || "40"}", "ro": "${ro || "1000"}",
+      var str2 = `{"tipo": "mis", "blanco": "${targetType}", "mision": "${misionType}","etamnmax": "${etamnmax|| "180"}", "vm": "${vm|| "950"}", "vt": "${vt || "500"}", "deltato": "${deltato || "40"}", "ro": "${ro || "2000"}",
       "deltat": "${deltat || "0"}","deltamo": "${deltamo || "15"}","etatn": "${etatn || "85"}","am": "${am || "5"}"}`;
       ws.send(str2);
 
-//      var newMessage = document.createElement('p');
-//      newMessage.textContent = "Client: " + message;
-//      document.getElementById('messages_txt').appendChild(newMessage);
 
     });
     $("#button3").click(function(evt) {

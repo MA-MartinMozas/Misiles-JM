@@ -82,7 +82,7 @@ class cabeza(object):
     def __init__(self, d_inic):
 
         self.d_inic = d_inic
-        self._supcono = 0
+
 
     # Definimos la superficie del cono porque es común a todos los tipos de cabeza
     @property
@@ -96,9 +96,7 @@ class conica(cabeza):
     def __init__(self, d_inic):
         super().__init__(d_inic)
 
-        self._angucono = 0
-        self._CDWC = 0
-        self._DWcono = 0
+
 
     # Cálculo del ángulo del cono
     @property
@@ -123,9 +121,7 @@ class ojival(cabeza):
 
     def __init__(self, d_inic ):
         super().__init__(d_inic)
-        self._anguojiva = 0
-        self._CDWO = 0
-        self._DWojiva = 0
+
 
     # Cálculo del ángulo de la ojiva
     @property
@@ -152,41 +148,41 @@ class r_friccion (object) :
     def __init__(self, d_inic):
         self.d_inic= d_inic
 
-    # Cálculo de los coeficientes de fricción laminar
     @property
-    def CDfilam(self):
-        return 0.664 / np.sqrt(self.d_inic.Rex)
-
+    def Flujo(self):
+        if self.d_inic.Rex <= 2 * 10 ** -7:
+            return "laminar"
+        else:
+            return "turbulento"
+    # Cálculo de los coeficientes de fricción laminar o turbulento en función del Reynolds
+    @property
+    def CDfilt(self):
+        if self.d_inic.Rex <= 2*10**-7:
+            return 0.664 / np.sqrt(self.d_inic.Rex)
+        else:
+            return 0.288*(np.log10(self.d_inic.Rex))**-2.45
     @property
     def CDfi(self):
-        return 1.328 / np.sqrt(self.d_inic.Rex)
+        if self.d_inic.Rex <= 2 * 10 ** -7:
+            return 1.328 / np.sqrt(self.d_inic.Rex)
+        else:
+            return 1.25*0.288*(np.log10(self.d_inic.Rex))**-2.45
 
     @property
-    def CDflam(self):
-        return ((1/(1+0.17*self.d_inic.M**2))**0.12950)*self.CDfi
+    def CDf(self):
+        if self.d_inic.Rex <= 2 * 10 ** -7:
+            return ((1/(1+0.17*self.d_inic.M**2))**0.12950)*self.CDfi
+        else:
+            return ((1 / (1 + 0.2 * self.d_inic.M ** 2) ** 0.467)) * self.CDfi
 
     # Cálculo de la Resistencia de fricción
     @property
     def Df(self):
-        return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDflam
-            # MANUUU OJO DEFINIR RESULTADOS CDfiturb y CDfturb en el resto de sitios!! son resultados que hay que dar nuevos, en lugar de CDfilam y CDflam!! Cuando el Reynolds es superior a 2*10**7
-            # # Cálculo de los coeficientes de fricción turbulento
-            # @property
-            # def CDfiturb(self):
-            #     return 0.288*(np.log10(self.d_inic.Rex))**-2.45
-            #
-            # @property
-            # def CDfi(self):
-            #     return 1.25*0.288*(np.log10(self.d_inic.Rex))**-2.45
-            #
-            # @property
-            # def CDfturb(self):
-            #     return ((1 / (1 + 0.2 * self.d_inic.M ** 2)**0.467)) * self.CDfi
-            #
-            # # Cálculo de la Resistencia de fricción
-            # @property
-            # def Df(self):
-            #     return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDfturb
+        if self.d_inic.Rex <= 2 * 10 ** -7:
+            return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDfilt
+        else:
+            return 0.5 * self.d_inic.rho * (self.d_inic.M * self.d_inic.a) ** 2 * self.d_inic.supref * self.CDfilt
+
 
 # Definimos una clase para Margen de estabilidad estático que hereda de objeto y es común a todos los tipos de cabeza
 # Repasar con cálculos a mano OJOOOOOOOOOOOOOOOOOOOOOOO. LUEGO BORRAR ESTA NOTITA
@@ -194,16 +190,9 @@ class m_estabilidad(object):
     def __init__(self, d_inic, b, Cnalphabeta):
         self.d_inic= d_inic
         self.b= b
-        self._lt= 0
+
         self.Cnalphabeta = Cnalphabeta
-        self._Cnalphawing = 0
-        self._Xcpbeta = 0
-        self._Xcpwing = 0
-        self._Kwb = 0
-        self._Kbw = 0
-        self._Cnalpha = 0
-        self._Cmalpha = 0
-        self._h = 0
+
 
     @property
     def lt(self):
@@ -251,14 +240,8 @@ class manio_cap(m_estabilidad):
         super().__init__(d_inic, b, Cnalphabeta)
         self.g = 9.81  # Este valor es invariable
         self.Cnsat = Cnsat
-        self._Cndelta = 0
-        self._Cmdelta = 0
-        self._Kbm = 0
+
         self.Kmb = 1  # Este valor es invariable
-        self._maniobrabilidad = 0
-        self._alphasatur = 0
-        self._nmaximo = 0
-        self._deltamani = 0
 
     @property
     def Kbm(self):
@@ -340,7 +323,7 @@ def principal(geo):
                   "supcono": micabeza.supcono,
                   "angucono": miconica.angucono, "CDWC": miconica.CDWC, "DWcono": miconica.DWcono,
                   "anguojiva": miojiva.anguojiva, "CDWO": miojiva.CDWO, "DWojiva": miojiva.DWojiva,
-                  "CDfilam": c_fric.CDfilam, "CDfi": c_fric.CDfi, "CDflam": c_fric.CDflam,
+                  "Flujo": c_fric.Flujo,"CDfilam": c_fric.CDfilt, "CDfi": c_fric.CDfi, "CDflam": c_fric.CDf,
                   "Xcgfus": d_inic.Xcgfus,"Xcgcabeza": d_inic.Xcgcabeza,"Xcgaletas": d_inic.Xcgaletas,
                   "Xcgcanard": d_inic.Xcgcanard,"m": d_inic.m,
                   "Xcg": d_inic.Xcg,"Cnalphawing": mim_estabilidad.Cnalphawing,"Xcpbeta": mim_estabilidad.Xcpbeta,
@@ -353,6 +336,9 @@ def principal(geo):
     for key, value in resultados.items():
         if key == "tipo":
             resultados[key] = value
+        #     se puede poner simplemente pass pero por mayor claridad
+        elif key == "Flujo":
+            resultados[key] = value
         else:
             # "%.3f" %value,
             resultados[key] = "%.3f" % value,
@@ -363,9 +349,9 @@ if __name__ == '__main__':
     #importante no cambiar nombre de d_inic
     d_inic = geometry( 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
     print(d_inic.Rex)
-    # prueba de que con la barra baja no coge el valor obtenido en la función si no el dado en el init
+
     print(d_inic.supref)
-    print(d_inic._supref)
+
 
     miconica= conica(d_inic)
     print(miconica.angucono)
@@ -375,7 +361,7 @@ if __name__ == '__main__':
     print(cabeza.supcono)
 
     c_fric= r_friccion(d_inic)
-    print(c_fric.CDfilam)
+    print(c_fric.CDfilt)
     print(c_fric.CDfi)
-    print(c_fric.CDflam)
+    print(c_fric.CDf)
     print(c_fric.Df)

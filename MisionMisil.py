@@ -15,21 +15,11 @@ class ppura(mision):
         super().__init__( etamnmax, vm, vt, deltato, ro)
 
         self.deltat = deltat
-        self._K = 0
-        self._deltati = 0
-        self._etamnm = 0
-        self._t = 0
-        self._ri = 0
-        self._xt = 0
 
     @property
     def K(self):
-        _K = self.vm / self.vt
-        valor = 0
-        #Si 1<K<2 sí puede haber impacto, y continúa con las operaciones, sino no, y se paran los cálculos.
-        if 1<_K<2:
-            valor = _K
-        return valor
+        return self.vm / self.vt
+
 
     @property
     def deltati(self):
@@ -39,24 +29,16 @@ class ppura(mision):
     def etamnm(self):
         # Si deltato<deltati entonces nunca se dará deltati, ya que el ángulo deltat decrece con el tiempo, por lo que etanm máxima se da en el lanzamiento
         if self.deltato < self.deltati:
-            _etamnm = self.vt*self.vm*np.sin(self.deltato*np.pi/180)/self.ro
-            caso = 0
+            return self.vt*self.vm*np.sin(self.deltato*np.pi/180)/self.ro
+
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
-            if self.etamnmax >_etamnm :
-                caso = _etamnm
-                return caso
-            else:
-                return caso
+
         # Si deltato>deltati entonces etanm máxima se dará en t=0
-        else:
-            _etamnm = self.vt * self.vm * np.sin(self.deltati) / self.ri
-            caso = 0
+        elif self.deltato > self.deltati:
+            return self.vt * self.vm * np.sin(self.deltati) / self.ri
+
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
-            if self.etamnmax > _etamnm:
-                caso = _etamnm
-                return caso
-            else:
-                return caso
+
 
     # Calculamos el tiempo de impacto
     @property
@@ -67,7 +49,7 @@ class ppura(mision):
     # ri es para el caso de self.d_inic.deltato>self.deltati:
     @property
     def ri(self):
-        return self.ro*(np.tan(self.deltati/2)/np.tan(self.deltato*np.pi/180/2))**self.K*(np.sin(self.deltato*np.pi/180)/np.sin(self.deltati))
+        return (self.ro*(np.tan(self.deltati/2)/np.tan(self.deltato*np.pi/180/2))**self.K)*(np.sin(self.deltato*np.pi/180)/np.sin(self.deltati))
 
     # Calculamos la posición del objetivo en el impacto
     @property
@@ -83,10 +65,7 @@ class naveproporc(mision):
         self.blanco = blanco
         self.etatn = etatn
         self.am = am
-        self._deltamc = 0
-        self._incrementodeltam = 0
-        self._ti = 0
-        self._etamncalculado = 0
+
     #Existen dos aceleraciones de maniobra que el misil deberá cumplir para garantizar el impacto. SE DEBEN CUMPLIR AMBAS CONDICIONES
 
     # Si es MANIOBRANTE, la máxima aceleración de maniobra se requiere en el momento de impacto.
@@ -95,32 +74,22 @@ class naveproporc(mision):
     @property
     def etmncalculado(self):
         if self.blanco == "maniobrante":
-            _etamnmcalculado = self.etatn*self.am/(self.am-2)
-            suceso = 0
+            return self.etatn*self.am/(self.am-2)
+
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
-            if self.etamnmax > _etamnmcalculado:
-                suceso = _etamnmcalculado
-                return suceso
-            else:
-                return suceso
+
         else:
-            _etamnmcalculado = (self.am * self.vm / self.ti) * (self.incrementodeltam)
-            suceso = 0
+            return (self.am * self.vm / self.ti) * (self.incrementodeltam)
+
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos
-            if self.etamnmax > _etamnmcalculado:
-                suceso = _etamnmcalculado
-                return suceso
-            else:
-                return suceso
+
     #Si es NO MANIOBRANTE, la máxima aceleración se requiere en t=0
 
 
     @property
     def deltamc(self):
-        if self.blanco == "No_maniobrante":
-            return np.arcsin(self.vt*np.sin(self.deltato*np.pi / 180)/self.vm)
-        else:
-            return 0
+        return np.arcsin(self.vt*np.sin(self.deltato*np.pi / 180)/self.vm)
+
 
     @property
     def incrementodeltam(self):
@@ -131,10 +100,7 @@ class naveproporc(mision):
 
     @property
     def ti(self):
-        if self.blanco == "No_maniobrante":
-            return self.ro/(self.vm*np.cos(self.deltamo*np.pi / 180)-self.vt*np.sin(self.deltato*np.pi / 180))
-        else:
-            return 0
+        return self.ro/(self.vm*np.cos(self.deltamo*np.pi / 180)-self.vt*np.cos(self.deltato*np.pi / 180))
 
 
 
@@ -152,9 +118,12 @@ def principal2(mis):
             mis[key] = value
         elif mis[key]== mis["blanco"]:
             mis[key] = value
+        elif mis[key]== mis["mision"]:
+            mis[key] = value
         else:
             mis[key] = np.float64(value)
     blanco = mis["blanco"]
+    mision = mis["mision"]
     # aquí metemos cada variable que se tiene que introducir le asignamos su valor asignandole el marcador del diccionario mis
     etamnmax = mis['etamnmax']
     vm = mis['vm']
@@ -177,17 +146,40 @@ def principal2(mis):
                   "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etmncalculado
 
                   }
-    print(resultados)
-    if resultados["etamnm"] == 0:
-        resultados = {"fun":"no_impacto"}
-        return resultados
-    elif resultados["K"]== 90:
-        resultados = {"fun": "no_impacto"}
-        return resultados
-    elif resultados["etamncalculado"]== 0:
-        resultados = {"fun": "no_impacto"}
-        return resultados
+
+    print("resultados=" , resultados)
+
+    if mision == "P_Pura":
+        resultados = {"fun": "hay_impacto", "K": mippura.K, "deltati": mippura.deltati, "etamnm": mippura.etamnm,
+                      "t": mippura.t, "ri": mippura.ri, "xt": mippura.xt
+                      }
+        if resultados["etamnm"] > etamnmax:
+            resultados["fun"] = "no_impacto(ac>acmax)"
+            return resultados
+        elif resultados["K"] < 1 :
+            resultados["fun"] = "no_impacto(v.misil<vtarget)"
+            return resultados
+        elif resultados["K"] > 2:
+            resultados["fun"] = "no_impacto(v.misil<vtarget)"
+            return resultados
+        else:
+
+            for key, value in resultados.items():
+                if resultados[key] == resultados["fun"]:
+                    resultados[key] = value
+                else:
+                    # "%.3f" %value,
+                    resultados[key] = "%.3f" % value,
+            return resultados
+
     else:
+        resultados = {"fun": "hay_impacto",
+                      "deltamc": minaveproporc.deltamc, "incrementodeltam": minaveproporc.incrementodeltam,
+                      "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etmncalculado
+                      }
+        if resultados["etamncalculado"] > etamnmax:
+            resultados["fun"] = "no_impacto(ac>acmax)"
+            return resultados
         for key, value in resultados.items():
             if resultados[key]== resultados["fun"]:
                 resultados[key] = value
@@ -198,7 +190,7 @@ def principal2(mis):
 
 
 # esta parte sirve para que se ejecute en caso de no hacer import, es decir si solo corremos esta .py
-# if __name__ == '__main__':
-#
-#
-# pass
+if __name__ == '__main__':
+    mippura = ppura(0, 180, 950, 500, 40, 2000)
+    print(mippura.K,mippura.etamnm)
+

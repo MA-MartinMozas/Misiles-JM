@@ -29,15 +29,15 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         # print(message)
-        print(type(message))
+        # print(type(message))
         json_string = u'%s' %(message,)
-        print(json_string)
+        # print(json_string)
         # json_string = u'{ "id":"123456789"}'
-        print(json_string)
+        # print(json_string)
         msg = json.loads(json_string)
-        print(type(msg))
+        # print(type(msg))
         obj = json.loads(json_string)
-        print(type(obj))
+        # print(type(obj))
 
         if msg['tipo'] == 'geo':
             global geo
@@ -70,7 +70,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
 
 
-        print(result)
+        print("result=",result)
 
 
 
