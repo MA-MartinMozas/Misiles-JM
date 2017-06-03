@@ -33,13 +33,13 @@ class ppura(mision):
 
     @property
     def deltati(self):
-        return np.arccos(self.K/2)
+        return np.arccos (self.K/2)
 
     @property
     def etamnm(self):
         # Si deltato<deltati entonces nunca se dará deltati, ya que el ángulo deltat decrece con el tiempo, por lo que etanm máxima se da en el lanzamiento
         if self.deltato < self.deltati:
-            _etamnm = self.vt*self.vm*np.sin(self.deltato)/self.ro
+            _etamnm = self.vt*self.vm*np.sin(self.deltato*np.pi/180)/self.ro
             caso = 0
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
             if self.etamnmax >_etamnm :
@@ -61,13 +61,13 @@ class ppura(mision):
     # Calculamos el tiempo de impacto
     @property
     def t(self):
-        return ((-self.ro*np.sin(self.deltato))/(2*self.vt*(np.tan(self.deltato))**2))*(((np.tan(self.deltat/2))**(self.K-1))/(self.K-1)+((np.tan(self.deltat/2))**(self.K+1))/(self.K+1)-((np.tan(self.deltato/2))**(self.K-1))/(self.K-1)-((np.tan(self.deltato/2))**(self.K+1))/(self.K+1))
+        return ((-self.ro*np.sin(self.deltato*np.pi/180))/(2*self.vt*(np.tan(self.deltato*np.pi/180))**2))*(((np.tan(self.deltat*np.pi/180/2))**(self.K-1))/(self.K-1)+((np.tan(self.deltat*np.pi/180/2))**(self.K+1))/(self.K+1)-((np.tan(self.deltato*np.pi/180/2))**(self.K-1))/(self.K-1)-((np.tan(self.deltato*np.pi/180/2))**(self.K+1))/(self.K+1))
         #En impacto deltat=0º,r=0 y etamn=0
 
     # ri es para el caso de self.d_inic.deltato>self.deltati:
     @property
     def ri(self):
-        return self.ro*(np.tan(self.deltati/2)/np.tan(self.deltato/2))**self.K*(np.sin(self.deltato)/np.sin(self.deltati))
+        return self.ro*(np.tan(self.deltati/2)/np.tan(self.deltato*np.pi/180/2))**self.K*(np.sin(self.deltato*np.pi/180)/np.sin(self.deltati))
 
     # Calculamos la posición del objetivo en el impacto
     @property
@@ -76,14 +76,13 @@ class ppura(mision):
 
 # Definimos una clase para Navegación Proporcional que hereda de la clase misión
 class naveproporc(mision):
-    def __init__(self, deltamo, etatn, am, t,etamnmax, vm, vt, deltato, ro, blanco):
+    def __init__(self, deltamo, etatn, am,etamnmax, vm, vt, deltato, ro, blanco):
         super().__init__(etamnmax, vm, vt, deltato, ro)
 
         self.deltamo = deltamo
         self.blanco = blanco
         self.etatn = etatn
         self.am = am
-        self.t = t
         self._deltamc = 0
         self._incrementodeltam = 0
         self._ti = 0
@@ -96,7 +95,7 @@ class naveproporc(mision):
     @property
     def etmncalculado(self):
         if self.blanco == "maniobrante":
-            _etamnmcalculado = self.etatn*self.am/(self.am-2)*(1-(1-self.t/self.ti)**(self.am-2))
+            _etamnmcalculado = self.etatn*self.am/(self.am-2)
             suceso = 0
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos.
             if self.etamnmax > _etamnmcalculado:
@@ -105,7 +104,7 @@ class naveproporc(mision):
             else:
                 return suceso
         else:
-            _etamnmcalculado = (self.am * self.vm / self.ti) * (self.incrementodeltam * np.pi / 180)
+            _etamnmcalculado = (self.am * self.vm / self.ti) * (self.incrementodeltam)
             suceso = 0
             # Si etamnmx>etamn sí se producirá impacto, sino no, y se paran los cálculos
             if self.etamnmax > _etamnmcalculado:
@@ -119,21 +118,21 @@ class naveproporc(mision):
     @property
     def deltamc(self):
         if self.blanco == "No_maniobrante":
-            return np.arcsin(self.vt*np.sin(self.deltato)/self.vm)
+            return np.arcsin(self.vt*np.sin(self.deltato*np.pi / 180)/self.vm)
         else:
             return 0
 
     @property
     def incrementodeltam(self):
         if self.blanco == "No_maniobrante":
-            return self.deltamo-self.deltamc
+            return self.deltamo*np.pi / 180-self.deltamc
         else:
             return 0
 
     @property
     def ti(self):
         if self.blanco == "No_maniobrante":
-            return self.ro/(self.vm*np.cos(self.deltamo)-self.vt*np.sin(self.deltato))
+            return self.ro/(self.vm*np.cos(self.deltamo*np.pi / 180)-self.vt*np.sin(self.deltato*np.pi / 180))
         else:
             return 0
 
@@ -170,8 +169,7 @@ def principal2(mis):
     deltamo = mis['deltamo']
     etatn = mis['etatn']
     am = mis['am']
-    t = mis['t']
-    minaveproporc = naveproporc(deltamo, etatn, am, t,etamnmax, vm, vt, deltato, ro, blanco)
+    minaveproporc = naveproporc(deltamo, etatn, am, etamnmax, vm, vt, deltato, ro, blanco)
 
     # aquí tenemos que introducir un marcador por cada resultado que queramos sacar y le asignamos el valor
     resultados = {"fun": "hay_impacto", "K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,

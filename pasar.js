@@ -136,7 +136,6 @@
       var deltamo = $("#deltamo").val();
       var etatn = $("#etatn").val();
       var am = $("#am").val();
-      var t = $("#t").val();
       var targetType = document.getElementById('targetType').innerHTML;
 
 
@@ -144,8 +143,8 @@
       <!--note that the ` is crucial-->
 //      dentro del str tenemos que meter el marcador de la variable y sera igual a la variable que hemos definido anteriormente y que se asocia a su input
 
-      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "50"}", "vm": "${vm|| "470"}", "vt": "${vt || "250"}", "deltato": "${deltato || "90"}", "ro": "${ro || "5000"}",
-      "deltat": "${deltat || "0"}","deltamo": "${deltamo || "15"}","etatn": "${etatn || "19.62"}","am": "${am || "3.5"}","t": "${t || "11"}"}`;
+      var str2 = `{"tipo": "mis", "blanco": "${targetType}","etamnmax": "${etamnmax|| "170"}", "vm": "${vm|| "700"}", "vt": "${vt || "400"}", "deltato": "${deltato || "40"}", "ro": "${ro || "1000"}",
+      "deltat": "${deltat || "0"}","deltamo": "${deltamo || "15"}","etatn": "${etatn || "85"}","am": "${am || "5"}"}`;
       ws.send(str2);
 
 //      var newMessage = document.createElement('p');
