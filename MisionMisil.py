@@ -141,16 +141,16 @@ def principal2(mis):
     minaveproporc = naveproporc(deltamo, etatn, am, etamnmax, vm, vt, deltato, ro, blanco)
 
     # aquí tenemos que introducir un marcador por cada resultado que queramos sacar y le asignamos el valor
-    resultados = {"fun": "hay_impacto", "K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,
+    resultados = {"fun": "hay_impacto", "mis": mision , "K": mippura.K,"deltati": mippura.deltati,"etamnm": mippura.etamnm,"t": mippura.t,"ri": mippura.ri,"xt": mippura.xt,
                   "deltamc": minaveproporc.deltamc,"incrementodeltam": minaveproporc.incrementodeltam,
                   "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etmncalculado
 
                   }
 
     print("resultados=" , resultados)
-
+    # realizaremos condicionales para mandar solo los resultados necesarios para el tipo de misión
     if mision == "P_Pura":
-        resultados = {"fun": "hay_impacto", "K": mippura.K, "deltati": mippura.deltati, "etamnm": mippura.etamnm,
+        resultados = {"fun": "hay_impacto","mis": mision , "K": mippura.K, "deltati": mippura.deltati, "etamnm": mippura.etamnm,
                       "t": mippura.t, "ri": mippura.ri, "xt": mippura.xt
                       }
         if resultados["etamnm"] > etamnmax:
@@ -167,21 +167,26 @@ def principal2(mis):
             for key, value in resultados.items():
                 if resultados[key] == resultados["fun"]:
                     resultados[key] = value
+                elif resultados[key] == resultados["mis"]:
+                    resultados[key] = value
                 else:
                     # "%.3f" %value,
                     resultados[key] = "%.3f" % value,
             return resultados
 
     else:
-        resultados = {"fun": "hay_impacto",
+        resultados = {"fun": "hay_impacto","mis": mision ,
                       "deltamc": minaveproporc.deltamc, "incrementodeltam": minaveproporc.incrementodeltam,
                       "ti": minaveproporc.ti, "etamncalculado": minaveproporc.etmncalculado
                       }
         if resultados["etamncalculado"] > etamnmax:
             resultados["fun"] = "no_impacto(ac>acmax)"
             return resultados
+
         for key, value in resultados.items():
             if resultados[key]== resultados["fun"]:
+                resultados[key] = value
+            elif resultados[key] == resultados["mis"]:
                 resultados[key] = value
             else:
                 # "%.3f" %value,

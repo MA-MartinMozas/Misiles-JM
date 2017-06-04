@@ -56,7 +56,7 @@
 // #Segundo, lo realizamos para definir la misión
     else {
     document.getElementById("fun").innerHTML = obj.fun;
-        if (misionType==1) {
+        if (obj.mis == "P_Pura") {
 
           document.getElementById("K").innerHTML = obj.K;
           document.getElementById("deltati").innerHTML = obj.deltati;
