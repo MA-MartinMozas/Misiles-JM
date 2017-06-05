@@ -1,6 +1,6 @@
 "# Misiles-JM" 
 Interprete : python 3.6
-Librerías : numpy , tornado
+Librerías : numpy , tornado, JSON
 Pasos para ejecutar el código :
 1. ejecutar el archivo ws.py
 2. abrir el navegador en local host 8888
