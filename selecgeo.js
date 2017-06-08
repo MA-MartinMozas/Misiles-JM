@@ -31,14 +31,14 @@ function selectGeometry(geometry,Type){
 
 }
 
-function getStrFinType(){
-    if (finType==1) {
-        return "Delta"
-    }
-    else {
-        return "Rectangular"
-    }
-}
+//function getStrFinType(){
+//    if (finType==1) {
+//        return "Delta"
+//    }
+//    else {
+//        return "Rectangular"
+//    }
+//}
 
 //esta función se activará al cargarse la página de DatosGeo lo que nos permite usar las variables de SeleccionGeo
 function customFormDatosGeo(){
@@ -59,21 +59,22 @@ function customFormDatosGeo(){
     if (canardType==2) {
         $("#xcanard").hide();$("#xcanardp").hide();
         $("#mcanard").hide();$("#mcanardp").hide();
+        $("#lrd").hide();$("#lrdp").hide();
 
 
         }
 //    en el caso del tipo de aleta se adjudica un string con el nombre de lo seleccionado que se utilizará para el tipo de cálculo en python
 
-    finTypeStr = getStrFinType();
-    /*
+//    finTypeStr = getStrFinType();
+
     if (finType==1) {
         finType= "Delta"
     }
     else {
         finType = "Rectangular"
     }
-    */
-    document.getElementById("finType").innerHTML = finTypeStr;
+
+    document.getElementById("finType").innerHTML = finType;
 //    mediante este comando se manda el valor seleccionado de tipo de aleta a la página de ResultadosGeo
 
 }
